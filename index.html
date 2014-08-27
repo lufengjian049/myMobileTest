@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title></title>
-    <script src="js/mui.min.js"></script>
     <link href="css/mui.css" rel="stylesheet"/>
+    <script src="js/mui.min.js"></script>
+    <script src="js/app.js" type="text/javascript" charset="utf-8"></script>
     <style>
     	html, body {
 				background-color: #efeff4;
@@ -22,15 +23,15 @@
 		<h1 class="mui-title">kom-test</h1>
 	</header>-->
 	<header class="mui-bar mui-bar-nav">
-		<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" id="backbtn">
+		<!--<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" id="backbtn">
 			<span class="mui-icon mui-icon-left-nav"></span>back
-		</button>
+		</button>-->
 		<!--<a href="" class="mui-icon mui-icon-bars mui-pull-right"></a>-->
 		<h1 class="mui-title">kom-test</h1>
 	</header>
 	<div class="mui-content">
 		<div class="mui-content-padded" style="margin: 5px;">
-			<form action="" class="mui-input-group">
+			<!--<form action="" class="mui-input-group">
 				<div class="mui-input-row">
 					<label>渠道名称:</label>
 					<input type="text" placeholder="渠道名称" class="mui-input-clear" />
@@ -43,21 +44,102 @@
 					<label>渠道名称:</label>
 					<input type="text" placeholder="渠道名称" class="mui-input-clear" />
 				</div>
-			</form>
+			</form>-->
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="test/transparent.html" class="mui-navigate-right">
+						transparent
+					</a>
+				</li>
+				<li class="mui-table-view-cell"><a href="" class="mui-navigate-right"></a></li>
+				<li class="mui-table-view-cell"><a href="" class="mui-navigate-right"></a></li>
+			</ul>
 		</div>
 	</div>
 	<script>
-		document.addEventListener('WebViewJavascriptBridgeReady', onBridgeReady, false);
-	   	function onBridgeReady(event) {
-            var bridge = event.bridge;
-            //调用初始化函数，取消队列，使消息能够得到直接处理；
-            bridge.init(function(message) {
-            	alert(message);
-            });
-            document.getElementById("backbtn").onclick=function(){
-            	bridge.callHandler('choose');
-            }
-	   	}
+//		document.addEventListener('WebViewJavascriptBridgeReady', onBridgeReady, false);
+//	   	function onBridgeReady(event) {
+//          var bridge = event.bridge;
+//          //调用初始化函数，取消队列，使消息能够得到直接处理；
+//          bridge.init(function(message) {
+//          	alert(message);
+//          });
+//          document.getElementById("backbtn").onclick=function(){
+//          	bridge.callHandler('choose');
+//          }
+//	   	}
+		mui.init({
+			preloadLimit: 3, //同时并存10个预加载窗口
+			swipeBack: false,
+		});
+		//TODO 等show，hide事件，动画都完成后放开预加载
+		(function($) {
+			$.plusReady(function() {
+				//初始化所有一级列表的预加载
+				var demos = document.getElementById('demos');
+				if ($.os.android) {
+					var count = 0;
+					$('.mui-table-view-cell', demos).each(function() {
+						if (!this.classList.contains('mui-collapse')) {
+							if (this.parentNode === demos) {
+								var a = this.querySelector('a');
+								var id = a.getAttribute('href');
+								if (~id.indexOf('.html') && !~$.data.preloads.indexOf(id)) { //如果没在缓存，则创建预加载
+									var url = a.href;
+									//延迟100ms处理，避免影响操作流畅
+									setTimeout(function() {
+										$.createWindow({
+											id: id,
+											url: url,
+											preload: true
+										});
+									}, (count++) * 100);
+									if (count >= 3) {
+										return false;
+									}
+								}
+							}
+						}
+					});
+
+					//监听展开事件
+					$('#demos').on('expand', '.mui-collapse', function(e) {
+						if (this.id !== 'pull-refresh-pandora') {
+							return;
+						}
+						count = 0;
+						$('.mui-table-view a', this).each(function() {
+							var id = this.getAttribute('href');
+							if (~id.indexOf('.html') && !~$.data.preloads.indexOf(id)) { //如果没在缓存，则创建预加载
+								var url = this.href;
+								//延迟100ms处理，避免影响操作流畅
+								setTimeout(function() {
+									$.createWindow({
+										id: id,
+										url: url,
+										preload: true
+									});
+								}, (count++) * 100);
+								if (count >= 3) {
+									return false;
+								}
+							}
+						});
+					});
+				}
+
+
+
+				// 关闭启动界面
+				plus.navigator.closeSplashscreen();
+				if ($.os.ios) {
+					document.getElementById('pull-refresh-pandora').style.display = "none";
+				} else if ($.os.android) {
+					document.getElementById('pull-refresh-h5').style.display = "none";
+				}
+			});
+		})(mui);
+	
 	</script>
 </body>
 </html>

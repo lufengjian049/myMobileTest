@@ -4,21 +4,61 @@
 		<meta charset="utf-8">
 		<title>Templates</title>
 		<script src="js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+		  table{
+		  	width:100%;
+		  	border:1px solid #ccc;
+		  	border-collapse: collapse;
+    		border-spacing: 0;
+		  }
+		  table th,table td{
+		  	border:1px solid #ccc;
+		  }
+		  table tbody tr.even{
+		  	background: #dff0d8;
+		  }
+		  tr:hover{
+		  	background: #f5f5f5;
+		  }
+		</style>
 		<script type="text/javascript" charset="utf-8">
 		  $(function(){
-		  	
+		  	$.ajax({
+		  		type:"get",
+		  		url:"xml/templates.xml",
+		  		async:true,
+		  		success:function(xml){
+		  			var tableobj=$("#temTable tbody"),tbodyhtml="";
+		  			$(xml).find("template").each(function(i){
+		  				var _this=$(this);
+		  				i%2 ? (tbodyhtml+="<tr class='even'>"):(tbodyhtml+="<tr>");
+		  				tbodyhtml+="<td>"+(i+1)+"</td>"+
+		  				"<td>"+_this.attr("name")+"</td>"+
+		  				"<td>"+_this.attr("description")+"</td>"+
+		  				"<td>"+_this.html()+"</td>"+
+		  				"<td></td>";
+		  				tbodyhtml+="</tr>";
+		  			});
+		  			tableobj.append(tbodyhtml);
+		  		}
+		  	});
 		  });
 		</script>
 	</head>
 	<body>
-		<table>
+		<table id="temTable">
 			<thead>
 				<tr>
-					<th>模板名称</th>
-					<th>描述</th>
-					<th>操作</th>
+					<th style="width: 2%;">序列</th>
+					<th style="width: 10%;">模板name</th>
+					<th style="width: 20%;">模板描述</th>
+					<th style="width: 58%;">源代码</th>
+					<th style="width: 10%;">操作</th>
 				</tr>
 			</thead>
+			<tbody>
+				
+			</tbody>
 			<!--tbody>(tr>td*3)*29-->
 		</table>
 	</body>
