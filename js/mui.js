@@ -3615,6 +3615,7 @@ window.mui = mui;
 	});
 	window.addEventListener('swiperight', function(e) {
 		var detail = e.detail;
+		//alert("detail="+detail+";detail.angle="+detail.angle+"<br>");
 		if (detail.angle > -15 && detail.angle < 15 && $.options.swipeBack === true) {
 			$.back();
 		}
