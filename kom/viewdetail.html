@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/komh5.css"/>
+		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/kom.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+		  $(function(){
+		  	$("#ostatusid").html(getUrlParams(decodeURIComponent(location.href),"curstatusn"));
+		  })
+		</script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a href="" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">Commit & Sell out(<span id="ostatusid"></span>)</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded" style="margin: 5px;">
+				<div class="searchdiv">
+					<div class="mui-input-row mui-search">
+						<input type="search" class="mui-input-clear" placeholder="项目名称" style="width: 85%;">
+						<button class="mui-btn mui-icon mui-icon-search"></button>
+					</div>
+					<div style="text-align: center;">
+						<span class="mui-icon mui-icon-down"></span>
+					</div>
+					<form action="" class="mui-input-group">
+						<div class="mui-input-row"><input type="text" placeholder="项目名称" class="mui-input-clear" /></div>
+						<div class="mui-input-row"><input type="text" placeholder="报价单编号" class="mui-input-clear" /></div>
+						<div class="mui-input-row"><input type="text" placeholder="管辖地区" class="mui-input-clear" /></div>
+						<div class="mui-input-row">
+							<span class="mui-btn">本月</span>
+							<span class="mui-btn">本季</span>
+							<span class="mui-btn">上季</span>
+							<span class="mui-btn">其他</span>
+						</div>
+						<div class="mui-input-row">
+							<input type="date" placeholder="预计签约时间(起)"/>到
+							<input type="date" placeholder="预计签约时间(止)"/>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

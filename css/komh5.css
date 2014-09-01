@@ -1,18 +1,30 @@
+/*reset:;*/
+.mui-content-padded{
+	padding-bottom: 20px;
+}
+/*new*/
 .kom-entry{
   	margin: 0 auto;
-  	margin-top: 14px;
+  	margin-top: 12px;
   	width: 90%;
   	background: #fff;
-  	padding: 10px;
+  	padding: 5px;
   	border-radius: 5px;
   	position: relative;
+  	text-align: center;
   }
   .kom-entry-harf{
   	width: 45%;
+  	display: inline-block;
+  }
+  .harf-left{
+  	width: 44%;
+	margin-left: 5%;
+	background: #4cd964;
   }
   .kom-entry-trans{
   	position: absolute;
-  	top: 40px;
+  	top: 51px;left:14px;
   	width: 0;
   	height: 0;
   	border-left:10px solid transparent;
@@ -20,8 +32,18 @@
     border-top:10px solid #fff;
     z-index:0;
   }
+  .harf-left .kom-entry-trans{
+  	border-top:10px solid #4cd964;
+  }
+  div.kom-entry.kom-entry-harf:not(.harf-left){
+  	background: #f0ad4e;
+  }
+  div.kom-entry.kom-entry-harf:not(.harf-left) .kom-entry-trans{
+  	border-top:10px solid #f0ad4e;
+  }
   .kom-entry .posbadge{
   	position: absolute;
   	right: -8px;
 	top: -8px;
+	z-index: 9;
   }
