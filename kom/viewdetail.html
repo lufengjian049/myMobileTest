@@ -8,9 +8,31 @@
 		<link rel="stylesheet" type="text/css" href="../css/komh5.css"/>
 		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/kom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" charset="utf-8">
 		  $(function(){
 		  	$("#ostatusid").html(getUrlParams(decodeURIComponent(location.href),"curstatusn"));
+		  	
+		  	mui.init({
+		  		swipeBack:false,
+        		optimize: false,
+        		pullRefresh:{
+        			container: '.mui-content-padded',
+        			down: {
+		                contentdown: '下拉可以刷新',
+		                contentover: '释放立即刷新',
+		                contentrefresh: '正在刷新...',
+		                callback: function(callback) {
+		                    setTimeout(function() {
+		                        var table = $('.mui-table-view'),
+		                        itemhtml=$("#itemtemp").html().replace("$proname$","神华乌海能源有限责任公司").replace("$num$","LYSYW-046B-P8TO").replace("$date$","张大杰 2014-9-2");
+		                        table.before(itemhtml);
+		                        callback(); //refresh completed
+		                    }, 1000);
+		                }
+		            }
+        		}
+		  	});
 		  })
 		</script>
 	</head>
@@ -19,17 +41,17 @@
 			<a href="" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">Commit & Sell out(<span id="ostatusid"></span>)</h1>
 		</header>
-		<div class="mui-content">
-			<div class="mui-content-padded" style="margin: 5px;">
+		<div class="mui-content" style="background-color: #FFFFFF;">
+			<div class="mui-content-padded">
 				<div class="searchdiv">
-					<div class="mui-input-row mui-search">
+					<div class="mui-input-row mui-search" style="height: 34px;">
 						<input type="search" class="mui-input-clear" placeholder="项目名称" style="width: 85%;">
 						<button class="mui-btn mui-icon mui-icon-search"></button>
 					</div>
 					<div style="text-align: center;">
 						<span class="mui-icon mui-icon-down"></span>
 					</div>
-					<form action="" class="mui-input-group">
+					<form action="" class="mui-input-group" style="display: none;">
 						<div class="mui-input-row"><input type="text" placeholder="项目名称" class="mui-input-clear" /></div>
 						<div class="mui-input-row"><input type="text" placeholder="报价单编号" class="mui-input-clear" /></div>
 						<div class="mui-input-row"><input type="text" placeholder="管辖地区" class="mui-input-clear" /></div>
@@ -45,7 +67,90 @@
 						</div>
 					</form>
 				</div>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<div class="mui-table">
+							<div class="mui-table-cell mui-col-xs-11">
+								<h4 class="mui-ellipsis">洛阳新区人民医院应用容灾项目</h4>
+								<h6>LYSYW-046B-PGH3</h6>
+								<h6>崔伟宾 2014-9-2</h6>
+							</div>
+							<div class="mui-table-cell mui-col-xs-1 mui-text-right">
+			                    <span class="mui-icon mui-icon-right mui-"></span>
+			                </div>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="mui-table">
+							<div class="mui-table-cell mui-col-xs-11">
+								<h4 class="mui-ellipsis">洛阳新区人民医院应用容灾项目</h4>
+								<h6>LYSYW-046B-PGH3</h6><h6>崔伟宾 2014-9-2</h6>
+							</div>
+							<div class="mui-table-cell mui-col-xs-1 mui-text-right">
+			                    <span class="mui-icon mui-icon-right"></span>
+			                </div>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="mui-table">
+							<div class="mui-table-cell mui-col-xs-11">
+								<h4 class="mui-ellipsis">洛阳新区人民医院应用容灾项目</h4>
+								<h6>LYSYW-046B-PGH3</h6><h6>崔伟宾 2014-9-2</h6>
+							</div>
+							<div class="mui-table-cell mui-col-xs-1 mui-text-right">
+			                    <span class="mui-icon mui-icon-right"></span>
+			                </div>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="mui-table">
+							<div class="mui-table-cell mui-col-xs-11">
+								<h4 class="mui-ellipsis">洛阳新区人民医院应用容灾项目</h4>
+								<h6>LYSYW-046B-PGH3</h6><h6>崔伟宾 2014-9-2</h6>
+							</div>
+							<div class="mui-table-cell mui-col-xs-1 mui-text-right">
+			                    <span class="mui-icon mui-icon-right"></span>
+			                </div>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="mui-table">
+							<div class="mui-table-cell mui-col-xs-11">
+								<h4 class="mui-ellipsis">洛阳新区人民医院应用容灾项目</h4>
+								<h6>LYSYW-046B-PGH3</h6><h6>崔伟宾 2014-9-2</h6>
+							</div>
+							<div class="mui-table-cell mui-col-xs-1 mui-text-right">
+			                    <span class="mui-icon mui-icon-right"></span>
+			                </div>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="mui-table">
+							<div class="mui-table-cell mui-col-xs-11">
+								<h4 class="mui-ellipsis">洛阳新区人民医院应用容灾项目</h4>
+								<h6>LYSYW-046B-PGH3</h6><h6>崔伟宾 2014-9-2</h6>
+							</div>
+							<div class="mui-table-cell mui-col-xs-1 mui-text-right">
+			                    <span class="mui-icon mui-icon-right"></span>
+			                </div>
+						</div>
+					</li>
+				</ul>
 			</div>
+		</div>
+		<div id="itemtemp" style="display: none;">
+			<li class="mui-table-view-cell">
+				<div class="mui-table">
+					<div class="mui-table-cell mui-col-xs-11">
+						<h4 class="mui-ellipsis">$proname$</h4>
+						<h6>$num$</h6>
+						<h6>$date$</h6>
+					</div>
+					<div class="mui-table-cell mui-col-xs-1 mui-text-right">
+	                    <span class="mui-icon mui-icon-right"></span>
+	                </div>
+				</div>
+			</li>
 		</div>
 	</body>
 </html>

@@ -2,6 +2,10 @@
 .mui-content-padded{
 	padding-bottom: 20px;
 }
+.mui-table-view-cell{
+	padding: 4px 8px;
+	padding-right: 0;
+}
 /*new*/
 .kom-entry{
   	margin: 0 auto;
@@ -47,3 +51,16 @@
 	top: -8px;
 	z-index: 9;
   }
+  .searchdiv{
+  	padding: 5px;background-color: #efeff4;
+  }
+  .mui-table-view-cell h6{
+  	float: left;
+  }
+  .mui-table-view-cell h6:last-child{
+  	float: right;
+  }
+  .mui-table-view li:nth-child(2n){
+  	background-color: #DDDDDD
+  }
+  
