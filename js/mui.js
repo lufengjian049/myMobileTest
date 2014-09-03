@@ -195,7 +195,7 @@ var mui = (function(window, document, undefined) {
 	return $;
 })(window, document);
 window.mui = mui;
-'$' in window || (window.$ = mui);
+//'$' in window || (window.$ = mui);
 
 /**
  * mui target(action>popover>modal>tab>toggle)

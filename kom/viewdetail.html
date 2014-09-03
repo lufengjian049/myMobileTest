@@ -26,13 +26,42 @@
 		                    setTimeout(function() {
 		                        var table = $('.mui-table-view'),
 		                        itemhtml=$("#itemtemp").html().replace("$proname$","神华乌海能源有限责任公司").replace("$num$","LYSYW-046B-P8TO").replace("$date$","张大杰 2014-9-2");
-		                        table.before(itemhtml);
+		                        table.prepend(itemhtml);
+		                        callback(); //refresh completed
+		                    }, 1000);
+		                }
+		            },
+		            up:{
+		            	contentdown: '上拉显示更多',
+		                contentover: '释放立即刷新',
+		                contentrefresh: '正在刷新...',
+		                callback:function(callback){
+		                	setTimeout(function() {
+		                        var table = $('.mui-table-view'),
+		                        itemhtml=$("#itemtemp").html().replace("$proname$","跨地区项目").replace("$num$","LYSYW-046B-P8TO").replace("$date$","张大杰 2014-9-2"),htmls="";
+		                        for(var i=0;i<10;i++){
+		                        	htmls+=itemhtml;
+		                        }
+		                        table.append(htmls);
 		                        callback(); //refresh completed
 		                    }, 1000);
 		                }
 		            }
         		}
 		  	});
+		  	
+		  	$("#clickdownwrap").on("click",function(){
+		  		var _this=$(this);
+		  		$("#othersearch").show();
+		  		_this.prev().find("button").hide().siblings("input").css({"width":"100%"}).attr("type","text");
+		  		_this.hide();
+		  		$("#clickdownwrapup").show();
+		  	})
+		  	$("#clickdownwrapup").on("click",function(){
+		  		$("#othersearch").hide();
+		  		$(this).hide();
+				$("#clickdownwrap").show().prev().find("button").show().siblings("input").attr("type","search").css({"width":"85%"});
+		  	})
 		  })
 		</script>
 	</head>
@@ -41,29 +70,45 @@
 			<a href="" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">Commit & Sell out(<span id="ostatusid"></span>)</h1>
 		</header>
-		<div class="mui-content" style="background-color: #FFFFFF;">
+		<div class="mui-content">
 			<div class="mui-content-padded">
 				<div class="searchdiv">
-					<div class="mui-input-row mui-search" style="height: 34px;">
-						<input type="search" class="mui-input-clear" placeholder="项目名称" style="width: 85%;">
-						<button class="mui-btn mui-icon mui-icon-search"></button>
-					</div>
-					<div style="text-align: center;">
-						<span class="mui-icon mui-icon-down"></span>
-					</div>
-					<form action="" class="mui-input-group" style="display: none;">
-						<div class="mui-input-row"><input type="text" placeholder="项目名称" class="mui-input-clear" /></div>
-						<div class="mui-input-row"><input type="text" placeholder="报价单编号" class="mui-input-clear" /></div>
-						<div class="mui-input-row"><input type="text" placeholder="管辖地区" class="mui-input-clear" /></div>
-						<div class="mui-input-row">
-							<span class="mui-btn">本月</span>
-							<span class="mui-btn">本季</span>
-							<span class="mui-btn">上季</span>
-							<span class="mui-btn">其他</span>
+					<form action="" class="mui-input-group">
+						<div class="mui-input-row" style="background: none;margin-bottom: 4px;">
+							<input type="search" class="mui-input-clear" placeholder="项目名称" style="width: 85%;">
+							<button class="mui-btn mui-icon mui-icon-search"></button>
 						</div>
-						<div class="mui-input-row">
-							<input type="date" placeholder="预计签约时间(起)"/>到
-							<input type="date" placeholder="预计签约时间(止)"/>
+						<div id="clickdownwrap">
+							<span class="mui-icon mui-icon-down"></span>
+						</div>
+						<div id="othersearch">
+							<div class="mui-input-row">
+								<input type="text" placeholder="报价单编号" class="mui-input-clear" /></div>
+							<div class="mui-input-row" style="position: relative;">
+								<input type="text" placeholder="管辖地区" class="mui-input-clear" />
+								<div style="position: absolute;background: #000;width: 100%;height:50px;">
+									<ul><li>dsdsds</li>
+									<li>dsdsd</li>
+									<li>dewew</li>
+									<li>ffvfdfsd</li></ul>
+								</div>
+							</div>
+							<div class="mui-input-row" style="height: 35px;">
+								<span class="mui-btn">本月</span>
+								<span class="mui-btn">本季</span>
+								<span class="mui-btn">上季</span>
+								<span class="mui-btn">其他</span>
+							</div>
+							<div class="mui-input-row">
+								<input type="date" placeholder="预计签约时间(起)"/>到
+								<input type="date" placeholder="预计签约时间(止)"/>
+							</div>
+							<div class="mui-input-row">
+								<button class="mui-btn mui-icon mui-icon-search" style="width: 99%;"></button>
+							</div>
+							<div style="text-align: center;display: none;" id="clickdownwrapup">
+								<span class="mui-icon mui-icon-up"></span>
+							</div>
 						</div>
 					</form>
 				</div>
@@ -71,7 +116,7 @@
 					<li class="mui-table-view-cell">
 						<div class="mui-table">
 							<div class="mui-table-cell mui-col-xs-11">
-								<h4 class="mui-ellipsis">洛阳新区人民医院应用容灾项目</h4>
+								<h4 class="mui-ellipsis">洛阳新区人民医院应用容灾项目1</h4>
 								<h6>LYSYW-046B-PGH3</h6>
 								<h6>崔伟宾 2014-9-2</h6>
 							</div>

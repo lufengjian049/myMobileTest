@@ -6,6 +6,12 @@
 	padding: 4px 8px;
 	padding-right: 0;
 }
+.mui-input-group {
+	background: none;
+}
+.mui-input-group .mui-input-row{
+	background: none;
+}
 /*new*/
 .kom-entry{
   	margin: 0 auto;
@@ -52,7 +58,10 @@
 	z-index: 9;
   }
   .searchdiv{
-  	padding: 5px;background-color: #efeff4;
+  	padding-top: 5px;padding-bottom: 5px;background-color: #efeff4;
+  }
+  .searchdiv form{
+  	background-color: #FFF;padding: 5px 5px 0 5px;
   }
   .mui-table-view-cell h6{
   	float: left;
@@ -62,5 +71,33 @@
   }
   .mui-table-view li:nth-child(2n){
   	background-color: #DDDDDD
+  }
+  #othersearch{
+  	display: none;position: absolute;z-index: 7;width: 100%;border-radius: 10px;
+  	background:rgba(255,255,255,0.9);padding:0 5px;margin-left: -5px;
+  }
+   #othersearch .mui-input-row{
+   	margin-bottom: 4px;
+   }
+  #othersearch input{
+  	background: none;
+  }
+  #clickdownwrap{
+  	text-align: center;margin-top: -6px;height:24px;
+  }
+  .mui-input-row input{
+  	border: 1px solid #ccc;border-radius: 10px;background: none;
+  }
+  .searchdiv{
+  	position: relative;height: 77px;
+  }
+  .mui-input-row span:first-child{
+  	margin-left: 2%;
+  }
+  .mui-input-row span{
+  	margin-right: 2%;width: 21%;
+  }
+  .mui-input-row input[type='date']{
+  	width: 46%;
   }
   
