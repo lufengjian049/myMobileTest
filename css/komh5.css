@@ -15,46 +15,59 @@
 /*new*/
 .kom-entry{
   	margin: 0 auto;
-  	margin-top: 12px;
+  	margin-top: 20px;
   	width: 90%;
   	background: #fff;
   	padding: 5px;
   	border-radius: 5px;
   	position: relative;
   	text-align: center;
-  }
+  	z-index: 3;
+  	box-shadow: 2px 2px #ccc;
+}
+.kom-entry-all{
+	margin: 0 auto;
+  	width: 92%;
+}
   .kom-entry-harf{
-  	width: 45%;
+  	width: 50%;
   	display: inline-block;
+  	border-radius: 0 5px 5px 0;
   }
   .harf-left{
-  	width: 44%;
-	margin-left: 5%;
+  	width: 50%;
 	background: #4cd964;
+	border-radius: 5px 0 0 5px;
+	margin-right: -2%;
   }
   .kom-entry-trans{
-  	position: absolute;
-  	top: 51px;left:14px;
-  	width: 0;
-  	height: 0;
-  	border-left:10px solid transparent;
-    border-right:10px solid transparent;
-    border-top:10px solid #fff;
-    z-index:0;
+    position: absolute;
+	top: 39px;
+	left: 46.6%;
+	width: 22px;
+	height: 22px;
+	z-index: -1;
+	background: #fff;
+	-webkit-transform: rotate(45deg);
+	box-shadow: 2px 2px #ccc;
   }
   .harf-left .kom-entry-trans{
-  	border-top:10px solid #4cd964;
+  	/*border-top:10px solid #4cd964;*/
+  	background: #4cd964;
+  	/*box-shadow: 2px 2px #4cd964;*/
   }
   div.kom-entry.kom-entry-harf:not(.harf-left){
   	background: #f0ad4e;
   }
   div.kom-entry.kom-entry-harf:not(.harf-left) .kom-entry-trans{
-  	border-top:10px solid #f0ad4e;
+  	/*border-top:10px solid #f0ad4e;*/
+  	background: #f0ad4e;
+  	/*box-shadow: 2px 2px #f0ad4e;*/
   }
   .kom-entry .posbadge{
   	position: absolute;
-  	right: -8px;
-	top: -8px;
+  	right: -3px;
+	top: -6px;
 	z-index: 9;
   }
   .searchdiv{
@@ -100,4 +113,33 @@
   .mui-input-row input[type='date']{
   	width: 46%;
   }
-  
+  .mui-search span{
+  	width: auto;
+  }
+  .ddllist{
+  	position: absolute;background: rgba(0,0,0,0.6);width: 100%;height:150px;z-index: 8;overflow: scroll;
+  	padding-left: 0;margin-top: 0;text-indent: 13px;
+  }
+  .ddllist li{
+  	list-style: none;
+  	border-bottom: 1px solid #ccc;color: #fff;padding: 4px 0;
+  }
+  .mask{
+  	position: fixed;width: 100%;height: 100%;background: rgba(255,255,255,0.6);z-index: 9999;top: 0;left: 0;
+  	display: none;
+  }
+#popbtns{
+	background: red;
+	border-radius: 5px;
+	width: 80%;box-shadow: 0 0 20px rgba(0, 0, 0, .7);
+	margin: 200px auto;padding: 5px 0;height: 42px;line-height: 15px;
+}
+#popbtns span{
+	display: inline-block;width: 32%;text-align: center;
+}
+#popbtns span:not(:last-child){
+	border-right: 1px solid #fff;
+}
+#popbtns span:first-child{
+	padding-top: 13px
+}
