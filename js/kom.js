@@ -4,6 +4,8 @@ $(function(){
 //	db.transaction(function(tx){
 //		tx.executeSql("drop table costatustable");
 //	});
+	//ios 监听事件
+	
   	$.back=function(){
   		alert(window.history.length);
   		if (window.history.length > 1) {
@@ -11,9 +13,9 @@ $(function(){
 			window.location.reload();
 		}
   	}
-	$(".mui-action-back").click(function(){
-		window.close();
-	})
+//	$(".mui-action-back").click(function(){
+//		window.close();
+//	})
 	$(".kom-entry").click(function(){
 		var _this=$(this),curstatusn=_this.text(),remark=_this.find("div").html(),badge=_this.find(".mui-badge").html();
 		curstatusn=curstatusn.replace(remark,"").replace(badge,"");
@@ -21,6 +23,7 @@ $(function(){
 			if(_this.hasClass("harf-left")) curstatusn="产品"+curstatusn;
 			else curstatusn="服务"+curstatusn;
 		}
+		//
 		location.href="viewdetail.html?curstatusn="+encodeURIComponent(curstatusn);
 		//window.open("viewdetail.html");
 	})
@@ -57,35 +60,120 @@ $(function(){
 	$.fn.initAjax=function(options){
 		var _this=$(this);
 		if(_this.data("initajax")){
+			//添加 下拉刷新
+			if(_this.data("pullload")){
+				db.transaction(function(tx){
+					tx.executeSql("drop table costatustable");
+				});
+				mui(".mui-content-padded").pullRefresh({
+					down: {
+		                callback: function(callback) {
+//		                    setTimeout(function() {
+//		                        var data={"o60":{projectnum:45,amout:42.34},"o0-0":{projectnum:74,amout:123.33}};
+//		                        callback(); //refresh completed
+//		                        options.callback(data);
+//		                    }, 1000);
+		                    $.get("http://kom3.eisoo.com/kommobiletest/init2.json?callback=?",{},function(data){
+		                    	callback();
+		                    	options.callback(data);
+		                    },"jsonp");
+		                }
+		            }
+				});
+			}
 			//判断 本地数据库中是否存在数据
 			db.transaction(function(tr){
 				tr.executeSql("create table if not exists costatustable (costatus,statusobj)");
 				tr.executeSql("select * from costatustable",[],function(tx,rs){
-					var rows=rs.rows,len=rows.length;
+					var rows=rs.rows,len=rows.length,data={};
 					if(len){
-						var data={};
+						alert("load data from local db!");
 						for(var i=0;i<len;i++){
 							var item=rows.item(i);
 							(item.statusobj!= "undefined") && (data[item.costatus]=JSON.parse(item.statusobj));
 						}
+						options.callback(data);
 					}else{
-						//ajax请求---发送请求，获取数据 post
-						var data={"o60":{projectnum:4,amout:2.34},"o0-0":{projectnum:14,amout:23.33}};
+						//alert("load data from service");
+						$.get("http://kom3.eisoo.com/kommobiletest/init.json?callback=?",{},function(data){
+							options.callback(data);
+						},"jsonp");
 					}
-					options.callback(data);
 				});
 			});
 		}
 		return _this;
+	}
+	$.fn.initOsEvent=function(settings){
+		if(!$(this).data("initosevent")) return;
+		options={
+			callback:function(subOptions){
+				iosinitevent(subOptions)
+			},
+			method:$(this).data("methodname")
+		};
+		$.extend(options,settings);
+		var subiops={cur:$(this),method:options.method,data:options.data};
+		if (window.WebViewJavascriptBridge) {
+			subiops.bridge=WebViewJavascriptBridge;
+			options.callback(subiops);
+		} else {
+			document.addEventListener('WebViewJavascriptBridgeReady', function() {
+				subiops.bridge=WebViewJavascriptBridge;
+				options.callback(subiops);
+			}, false)
+		}
 	}
 	$("div.mui-content,#offCanvas").initAjax({
 		callback:function(data){
 			initentrydata(data);
 		}
 	});
+	$(".mui-action-back2").on("click",function(e){
+		//$(this).initOsEvent({});
+		e.preventDefault();
+		if (window.WebViewJavascriptBridge) {
+			WebViewJavascriptBridge.init(function(message, responseCallback) {
+				var data = { 'Javascript Responds':'Wee!' }
+				responseCallback(data)
+			})
+	
+//			bridge.registerHandler('testJavascriptHandler', function(data, responseCallback) {
+//				var responseData = { 'Javascript Says':'Right back atcha!' }
+//				log('JS responding with', responseData)
+//				responseCallback(responseData)
+//			})
+			WebViewJavascriptBridge.send({test:"test"}, function(responseData) {
+				//alert(responseData);
+			})
+		} else {
+			document.addEventListener('WebViewJavascriptBridgeReady', function() {
+				WebViewJavascriptBridge.init(function(message, responseCallback) {
+					var data = { 'Javascript Responds':'Wee!' }
+					responseCallback(data)
+				})
+				WebViewJavascriptBridge.send({test:"test"}, function(responseData) {
+					//alert(responseData);
+				})
+			}, false)
+		}
+		return false;
+	});
 	
 	//--
 });
+function iosinitevent(options){
+	alert(options.method);
+	options.bridge.init(function(message, responseCallback) {
+		//responseCallback(data);
+	});
+	options.cur.on("tap",function(e){
+		e.preventDefault()
+		options.bridge.callHandler(options.method,options.data, function(response) {
+			
+		})
+	})
+}
 function getUrlParams(url,reparam){
 	var params=url.substring(url.indexOf('?')+1),paramsarr=params.split('&');
 	for(var ci=0;ci<paramsarr.length;ci++){
@@ -132,12 +220,19 @@ function initentrydata(ajaxdata){
 		var _this=$(this),entrystr=_this.data("entry");
 		if(entrystr){
 			var data=ajaxdata[entrystr];
-			if(data)
-				_this.append("<div>"+data.projectnum+"|"+data.amout+"</div>");
-//			else
-//				_this.append("<div>&nbsp;</div>");
+			if(data){
+				var otherobj=_this.find(".otherinfo");
+				if(otherobj.length){
+					otherobj.html(data.projectnum+"|"+data.amout);
+				}else{
+					_this.append("<div class='otherinfo'>"+data.projectnum+"|"+data.amout+"</div>");
+				}
+			}
+			else
+				_this.append("<div class='otherinfo'>&nbsp;</div>");
 			db.transaction(function(tx){
 				tx.executeSql("create table if not exists costatustable (costatus,statusobj)");
+				tx.executeSql("delete from costatustable where costatus="+entrystr);
 		  		tx.executeSql("insert into costatustable(costatus,statusobj) values ('"+entrystr+"','"+JSON.stringify(data)+"')");
 		  	});
 		}

@@ -33,12 +33,15 @@
   	width: 50%;
   	display: inline-block;
   	border-radius: 0 5px 5px 0;
+  	z-index: 3;
   }
   .harf-left{
   	width: 50%;
 	background: #4cd964;
 	border-radius: 5px 0 0 5px;
 	margin-right: -2%;
+	z-index: 4;
+	box-shadow: 1px 2px #ccc;
   }
   .kom-entry-trans{
     position: absolute;

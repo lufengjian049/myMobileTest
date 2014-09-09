@@ -50,19 +50,19 @@
         		}
 		  	});
 		  	
-		  	$("#clickdownwrap").on("click",function(){
+		  	$("#clickdownwrap").on("tap",function(){
 		  		var _this=$(this);
 		  		$("#othersearch").show();
 		  		_this.prev().find("button").hide().siblings("input").css({"width":"100%"}).attr("type","text");
 		  		_this.hide();
 		  		$("#clickdownwrapup").show();
 		  	})
-		  	$("#clickdownwrapup").on("click",function(){
+		  	$("#clickdownwrapup").on("tap",function(){
 		  		$("#othersearch").hide();
 		  		$(this).hide();
 				$("#clickdownwrap").show().prev().find("button").show().siblings("input").attr("type","search").css({"width":"85%"});
 		  	})
-		  	$("#ultalble").on("tap","li",function(){
+		  	$("#ultalble").on("longtap","li",function(){
 		  		var sheight=window.screen.height;
 		  		$("#popbtns").css("margin-top",(sheight/2-25 )+"px");
 		  		$(".mask").show().one("tap",function(){
