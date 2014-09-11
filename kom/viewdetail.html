@@ -12,7 +12,23 @@
 		<script type="text/javascript" charset="utf-8">
 		  $(function(){
 		  	$("#ostatusid").html(getUrlParams(decodeURIComponent(location.href),"curstatusn"));
-		  	
+		  	$("#typehidden").val(getUrlParams(decodeURIComponent(location.href),"type"));
+		  	//alert($("#ostatusid").width());//88px
+		  	if($("#ostatusid").width() > 88){
+		  		//debugger;
+//		  		var curheader=$("#ostatusid").parent();
+//		  		curheader.html().wrapAll('<div class="draghead"></div>');
+//		  		mui(".draghead").addEventListener("dragstart",function(e){
+//		  			alert("dragstart");
+//		  			 
+//		  		});
+//		  		mui(".draghead").addEventListener("drag",function(e){
+//		  			alert("drag");
+//		  		});
+//		  		mui(".draghead").addEventListener("dragend",function(e){
+//		  			alert("dragend");
+//		  		});
+		  	}
 		  	mui.init({
 		  		swipeBack:false,
         		optimize: false,
@@ -69,15 +85,22 @@
 		  			$(this).hide();
 		  		});
 		  	})
+		  	$("#ultalble").on("click","li",function(){
+		  		var sendparams={
+		  			id:14099,applystatus:2,type:$("#typehidden").val()
+		  		};
+		  		window.location="objc://getkinddetail/"+JSON.stringify(sendparams);
+		  	})
 		  })
 		</script>
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<a href="" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a href="" class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-type="cohref"></a>
 			<h1 class="mui-title">Commit & Sell out(<span id="ostatusid"></span>)</h1>
 		</header>
 		<div class="mui-off-canvas-wrap" style="margin-top: 44px;">
+			<input type="hidden" id="typehidden" />
 			<aside id="offCanvas" class="mui-off-canvas-right" style="overflow: scroll;" data-initajax="true">
 				<div class="kom-entry" data-entry="o60">
 					已丢单
@@ -202,7 +225,7 @@
 					</div>
 				</div>
 				<div id="itemtemp" style="display: none;">
-					<li class="mui-table-view-cell">
+					<li class="mui-table-view-cell" curid='$curid$'>
 						<div class="mui-table">
 							<div class="mui-table-cell mui-col-xs-11">
 								<h4 class="mui-ellipsis">$proname$</h4>

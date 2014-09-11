@@ -3603,16 +3603,17 @@ window.mui = mui;
 					window.history.back();
 				}
 			} else {
+				alert("back"); 
 				window.history.back();
 			}
 		}
 	};
-	window.addEventListener('tap', function(e) {
-		var action = $.targets.action;
-		if (action && action.classList.contains('mui-action-back')) {
-			$.back();
-		}
-	});
+//	window.addEventListener('click', function(e) {
+//		var action = $.targets.action;
+//		if (action && action.classList.contains('mui-action-back')) {
+//			$.back();
+//		}
+//	});
 	window.addEventListener('swiperight', function(e) {
 		var detail = e.detail;
 		//alert("detail="+detail+";detail.angle="+detail.angle+"<br>");

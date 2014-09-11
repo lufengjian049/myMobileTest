@@ -17,14 +17,16 @@ $(function(){
 //		window.close();
 //	})
 	$(".kom-entry").click(function(){
-		var _this=$(this),curstatusn=_this.text(),remark=_this.find("div").html(),badge=_this.find(".mui-badge").html();
+		if($(this).hasClass("entry-dis")) return;
+		var _this=$(this),curstatusn=_this.text(),remark=_this.find("div.otherinfo").html(),badge=_this.find(".mui-badge").html();
 		curstatusn=curstatusn.replace(remark,"").replace(badge,"");
 		if(_this.hasClass("kom-entry-harf")){
 			if(_this.hasClass("harf-left")) curstatusn="产品"+curstatusn;
 			else curstatusn="服务"+curstatusn;
 		}
+		localStorage.cohref=window.location.href;
 		//
-		location.href="viewdetail.html?curstatusn="+encodeURIComponent(curstatusn);
+		location.href="viewdetail.html?curstatusn="+encodeURIComponent(curstatusn)+"&type="+$(this).data("entry");
 		//window.open("viewdetail.html");
 	})
 	//data-dropdownlist
@@ -132,33 +134,44 @@ $(function(){
 	$(".mui-action-back2").on("click",function(e){
 		//$(this).initOsEvent({});
 		e.preventDefault();
-		if (window.WebViewJavascriptBridge) {
-			WebViewJavascriptBridge.init(function(message, responseCallback) {
-				var data = { 'Javascript Responds':'Wee!' }
-				responseCallback(data)
-			})
-	
-//			bridge.registerHandler('testJavascriptHandler', function(data, responseCallback) {
-//				var responseData = { 'Javascript Says':'Right back atcha!' }
-//				log('JS responding with', responseData)
-//				responseCallback(responseData)
-//			})
-			WebViewJavascriptBridge.send({test:"test"}, function(responseData) {
-				//alert(responseData);
-			})
-		} else {
-			document.addEventListener('WebViewJavascriptBridgeReady', function() {
-				WebViewJavascriptBridge.init(function(message, responseCallback) {
-					var data = { 'Javascript Responds':'Wee!' }
-					responseCallback(data)
-				})
-				WebViewJavascriptBridge.send({test:"test"}, function(responseData) {
-					//alert(responseData);
-				})
-			}, false)
+		if(mui.os.ios){
+			window.location="objc://goback";
+		}else{
+			
 		}
 		return false;
 	});
+	$(".mui-action-backup").on("click",function(e){
+		window.location=localStorage[$(this).data("type")];
+		return false;
+	});
+	$("#ultalble").on("tap","li",function(){
+  		var costatus=$("#typehidden").val(),type='',pstaus=costatus.substr(0,1),
+  		status=costatus.substr(1),ordertype='';
+  		if(status.indexOf('-')){
+  			var statusarr=status.split('-');
+  			ordertype=statusarr[1];status=statusarr[0];
+  		}
+  		if(pstaus =="c"){
+  			if(status =="0")
+  				type="1";
+  			else
+  				type="2";
+  		}else{
+  			if(status == "0")
+  				type="2";
+  		}
+  		var sendparams={
+  			id:14099,applystatus:2,type:type,stauts:status
+  		};
+  		if(type)
+  			window.location="objc://getkinddetail/"+JSON.stringify(sendparams);
+  		else{
+  			localStorage.vhref=window.location.href;
+  			location.href="orderinfo.html";
+  		}
+  		return false;
+  	})
 	
 	//--
 });
@@ -208,7 +221,7 @@ function loaddatalist(loadObj){
 	//发送请求 -获取数据
 	var ulhtml="<ul class='mui-table-view'>";
 	for(var i=0;i<10;i++){
-		ulhtml +=itemTemp.replace("$proname$","跨地区项目"+(i)).replace("$num$","LYSYW-046B-P8TO").replace("$date$","崔伟宾 2014-9-2");
+		ulhtml +=itemTemp.replace("$proname$","跨地区项目"+(i)).replace("$num$","LYSYW-046B-P8TO").replace("$date$","崔伟宾 2014-9-2").replace("$curid$","10");
 	}
 	ulhtml +="</ul>";
 	loadObj.after(ulhtml);
@@ -237,5 +250,8 @@ function initentrydata(ajaxdata){
 		  	});
 		}
 	})
+}
+function showbackinfo(info){
+	alert(info);
 }
 
