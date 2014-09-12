@@ -10,22 +10,24 @@
 		<script src="../js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/mui.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/pjax.js" type="text/javascript" charset="utf-8"></script>
-		<!--<script src="../js/kom.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="../js/kom.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" charset="utf-8">
 			$(function(){
 				$.pjax({
 					selector:"div.kom-entry",
 					container:"#container",
 					show: 'fade',
-					cache: false,
-					storage: false,titleSuffix: ''
+					titleSuffix: ''
+				});
+				$(".mui-action-backup2").on("click",function(){
+					window.history.back();
 				});
 			});
 		</script>
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a class="mui-action-backup2 mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">标题</h1>
 		</header>
 		<div id="container" class="mui-content" data-initajax="true">

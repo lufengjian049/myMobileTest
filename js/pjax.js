@@ -22,6 +22,10 @@
 			url = url.replace('?pjax=true&', '?').replace('?pjax=true', '').replace('&pjax=true', '');
 			return url;
 		},
+		geturlname:function(url){
+			url=url.substr(url.lastIndexOf("/")+1);
+			return Util.getRealUrl(url);
+		},
 		// 获取url的hash部分
 		getUrlHash : function(url) {
 			return url.replace(/^[^\#]*(?:\#(.*?))?$/, '$1');
@@ -86,6 +90,7 @@
 				time : time
 			};
 			if (flag && Util.support.storage) {
+				Util.removeCache(src);
 				key = Util.getLocalKey(src);
 				localStorage.setItem(key.data, data);
 				localStorage.setItem(key.time, time);
@@ -195,16 +200,16 @@
 		},
 		fade: function(data, callback, isCached){
 			var $this = this;
-			if(isCached){
-				$this.html(data);
-				callback && callback.call($this, data, isCached);
-			}else{
+			// if(isCached){
+			// 	$this.html(data);
+			// 	callback && callback.call($this, data, isCached);
+			// }else{
 				this.fadeOut(500, function(){
 					$this.html(data).fadeIn(500, function(){
 						callback && callback.call($this, data, isCached);
 					});
 				});
-			}
+			// }
 		}
 	}
 	// 展现函数
@@ -239,6 +244,13 @@
 		// isCached default is success
 		if (isCached !== true) {
 			isCached = false;
+		}else{
+			pjax.options.showFn && pjax.options.showFn(data, function() {
+				pjax.options.callback && pjax.options.callback.call(pjax.options.element,{
+					type : isCached? 'cache' : 'success'
+				});
+			}, isCached);
+			return;
 		}
 		//accept Whole html
 		pjax.html="#detaildiv";
@@ -274,39 +286,39 @@
 			storage : pjax.options.storage,
 			show : pjax.options.show,
 			title : title,
-			url : pjax.options.oldUrl
+			url : pjax.options.url
 		};
-		var query = $.param(pjax.options.data);
-		if (query != "") {
-			pjax.state.url = pjax.options.url + (/\?/.test(pjax.options.url) ? "&" : "?") + query;
-		}
+		// var query = $.param(pjax.options.data);
+		// if (query != "") {
+		// 	pjax.state.url = pjax.options.url + (/\?/.test(pjax.options.url) ? "&" : "?") + query;
+		// }
 		if (pjax.options.push) {
-			if (!pjax.active) {
-				history.replaceState($.extend({}, pjax.state, {
-					url : null
-				}), document.title);
-				pjax.active = true;
-			}
-			history.pushState(pjax.state, document.title, pjax.options.oldUrl);
+			// if (!pjax.active) {
+			// 	history.replaceState($.extend({}, pjax.state, {
+			// 		url : null
+			// 	}), document.title);
+			// 	pjax.active = true;
+			// }
+			history.pushState(pjax.state, document.title, pjax.options.url);
 		} else if (pjax.options.push === false) {
-			history.replaceState(pjax.state, document.title, pjax.options.oldUrl);
+			history.replaceState(pjax.state, document.title, pjax.options.url);
+		}
+		// 设置cache  && !isCached
+		if (pjax.options.cache) {
+			Util.setCache(pjax.options.url, data, title, pjax.options.storage);
 		}
 		pjax.options.showFn && pjax.options.showFn(data, function() {
 			pjax.options.callback && pjax.options.callback.call(pjax.options.element,{
 				type : isCached? 'cache' : 'success'
 			});
 		}, isCached);
-		// 设置cache
-		if (pjax.options.cache && !isCached) {
-			Util.setCache(pjax.options.url, data, title, pjax.options.storage);
-		}
 	};
 	
 	// 发送请求
-	pjax.request = function(options) {
+	pjax.request = function(options,op) {
 		options = $.extend(true, pjax.defaultOptions, options);
 		var cache, container = $(options.container);
-		options.oldUrl = options.url;
+		options.oldUrl = Util.geturlname(location.href);
 		options.url = Util.getRealUrl(options.url);
 		if($(options.element).length){
 			cache = Util.toInt($(options.element).attr('data-pjax-cache'));
@@ -325,12 +337,12 @@
 		// 展现函数
 		if (!options.showFn) {
 			options.showFn = function(data, fn, isCached) {
-				pjax.showFn(options.show, container, data, fn, isCached);
+				pjax.showFn(options.show, $(options.container), data, fn, isCached);
 			};
 		}
 		pjax.options = options;
 		pjax.options.success = pjax.success;
-		if (options.cache && (cache = Util.getCache(options.url, options.cache, options.storage))) {
+		if (op && options.cache && (cache = Util.getCache(options.url, options.cache, options.storage))) {
 			options.beforeSend();
 			options.title = cache.title;
 			pjax.success(cache.data, true);
@@ -341,7 +353,21 @@
 			pjax.xhr.onreadystatechange = $.noop;
 			pjax.xhr.abort();
 		}
-		pjax.xhr = $.ajax(pjax.options);
+		if(op =="init"){
+			pjax.state = {
+				container : "#container",    ////////////////////////////////////////////////////////
+				timeout : pjax.options.timeout,
+				cache : pjax.options.cache,
+				storage : pjax.options.storage,
+				show : pjax.options.show,
+				title : document.title,
+				url : pjax.options.oldUrl
+			};
+			history.pushState(pjax.state, document.title, pjax.options.oldUrl);
+			// Util.setCache(pjax.options.oldUrl, $(pjax.options.container).html(), title, pjax.options.storage);
+		}else{
+			pjax.xhr = $.ajax(pjax.options);
+		}
 	};
 
 	// popstate event
@@ -354,6 +380,7 @@
 		if (state && state.container) {
 			if ($(state.container).length) {
 				var data = {
+					// 
 					url : state.url,
 					container : state.container,
 					push : null,
@@ -363,10 +390,13 @@
 					title: state.title,
 					element: null
 				};
-				pjax.request(data);
+				pjax.request(data,"back");
 			} else {
 				window.location = location.href;
 			}
+		}else{
+			
+			pjax.request({},"init");
 		}
 	});
 
