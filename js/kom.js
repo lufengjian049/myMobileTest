@@ -16,19 +16,19 @@ $(function(){
 //	$(".mui-action-back").click(function(){
 //		window.close();
 //	})
-	$(".kom-entry").click(function(){
-		if($(this).hasClass("entry-dis")) return;
-		var _this=$(this),curstatusn=_this.text(),remark=_this.find("div.otherinfo").html(),badge=_this.find(".mui-badge").html();
-		curstatusn=curstatusn.replace(remark,"").replace(badge,"");
-		if(_this.hasClass("kom-entry-harf")){
-			if(_this.hasClass("harf-left")) curstatusn="产品"+curstatusn;
-			else curstatusn="服务"+curstatusn;
-		}
-		localStorage.cohref=window.location.href;
-		//
-		location.href="viewdetail.html?curstatusn="+encodeURIComponent(curstatusn)+"&type="+$(this).data("entry");
-		//window.open("viewdetail.html");
-	})
+	// $(".kom-entry").click(function(){
+	// 	if($(this).hasClass("entry-dis")) return;
+	// 	var _this=$(this),curstatusn=_this.text(),remark=_this.find("div.otherinfo").html(),badge=_this.find(".mui-badge").html();
+	// 	curstatusn=curstatusn.replace(remark,"").replace(badge,"");
+	// 	if(_this.hasClass("kom-entry-harf")){
+	// 		if(_this.hasClass("harf-left")) curstatusn="产品"+curstatusn;
+	// 		else curstatusn="服务"+curstatusn;
+	// 	}
+	// 	localStorage.cohref=window.location.href;
+	// 	//
+	// 	location.href="viewdetail.html?curstatusn="+encodeURIComponent(curstatusn)+"&type="+$(this).data("entry");
+	// 	//window.open("viewdetail.html");
+	// })
 	//data-dropdownlist
 	$("div.mui-input-row").each(function(){
 		var _this=$(this);
@@ -97,9 +97,12 @@ $(function(){
 						options.callback(data);
 					}else{
 						//alert("load data from service");
-						$.get("http://kom3.eisoo.com/kommobiletest/init.json?callback=?",{},function(data){
+						// $.get("http://kom3.eisoo.com/kommobiletest/init.json?callback=?",{},function(data){
+						// 	options.callback(data);
+						// },"jsonp");
+						$.ajax({url:"http://kom3.eisoo.com/kommobiletest/init.json?callback=?",dataType:"jsonp",jsonpCallback:"jsonp1",success:function(data){
 							options.callback(data);
-						},"jsonp");
+						}})
 					}
 				});
 			});

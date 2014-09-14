@@ -3596,18 +3596,18 @@ window.mui = mui;
 	/**
 	 * 后退
 	 */
-	$.back = function() {
-		if (window.history.length > 1) {
-			if ( typeof $.options.back === 'function') {
-				if ($.options.back() !== false) {
-					window.history.back();
-				}
-			} else {
-				alert("back"); 
-				window.history.back();
-			}
-		}
-	};
+	// $.back = function() {
+	// 	if (window.history.length > 1) {
+	// 		if ( typeof $.options.back === 'function') {
+	// 			if ($.options.back() !== false) {
+	// 				window.history.back();
+	// 			}
+	// 		} else {
+	// 			alert("back"); 
+	// 			window.history.back();
+	// 		}
+	// 	}
+	// };
 //	window.addEventListener('click', function(e) {
 //		var action = $.targets.action;
 //		if (action && action.classList.contains('mui-action-back')) {
@@ -3615,10 +3615,12 @@ window.mui = mui;
 //		}
 //	});
 	window.addEventListener('swiperight', function(e) {
+			//window.history.back();
+		jQuery(".mui-action-backup").trigger("tap");
 		var detail = e.detail;
 		//alert("detail="+detail+";detail.angle="+detail.angle+"<br>");
 		if (detail.angle > -15 && detail.angle < 15 && $.options.swipeBack === true) {
-			$.back();
+
 		}
 	});
 

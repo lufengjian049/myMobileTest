@@ -6,7 +6,8 @@
 (function($) {
 	var Util = {
 		support : {
-			pjax : window.history && window.history.pushState && window.history.replaceState && !navigator.userAgent.match(/(iPod|iPhone|iPad|WebApps\/.+CFNetwork)/),
+//			&& !navigator.userAgent.match(/(iPod|iPhone|iPad|WebApps\/.+CFNetwork)/)
+			pjax : window.history && window.history.pushState && window.history.replaceState,
 			storage : !!window.localStorage
 		},
 		toInt : function(obj) {
@@ -111,20 +112,28 @@
 	};
 	// pjax
 	var pjax = function(options) {
-		options = $.extend({
-			selector : '',
-			container : '',
-			callback : function() {},
-			filter : function() {}
-		}, options);
+		// options = $.extend({
+		// 	selector : '',
+		// 	container : '#container',
+		// 	callback : function() {},
+		// 	filter : function() {}
+		// }, options);
+		options = $.extend(true,{}, pjax.defaultOptions, options);
 		if (!options.container || !options.selector) {
 			throw new Error('selector & container options must be set');
 		}
-		$('body').delegate(options.selector, 'click', function(event) {
+		$('body').off('click',options.selector);	
+		$('body').on( 'click',options.selector, function(event) {
 			if (event.which > 1 || event.metaKey) {
 				return true;
 			}
+			if(typeof options.sethref === 'function'){
+				if(options.sethref(this)){  //返回 true 表示 不执行下面逻辑
+					return true;
+				}
+			}
 			var $this = $(this), href = $this.attr('href');
+			if (!href) return ; 
 			// 过滤
 			if (typeof options.filter === 'function') {
 				if (options.filter.call(this, href, this) === true){
@@ -149,12 +158,25 @@
 			options = $.extend(true, options, {
 				url : href,
 				element : this,
-				title: '',
 				push: true
 			});
 			// 发起请求
 			pjax.request(options);
 		});
+		//alert("init");
+		if(!options.init) return;
+		var curhref=Util.geturlname(location.href),maintitle=$(options.title).html();
+		var initstate = {
+			container : options.container,  
+			timeout : options.timeout,
+			cache : options.cache,
+			storage : options.storage,
+			show : options.show,
+			title : maintitle,
+			url : curhref
+		};
+		history.pushState(initstate,maintitle,curhref);
+		// Util.setCache(curhref,$(options.container).html(), maintitle,options.storage);
 	};
 	pjax.xhr = null;
 	pjax.options = {};
@@ -164,12 +186,13 @@
 	pjax.defaultOptions = {
 		timeout : 2000,
 		element : null,
+		container:"#container",
 		cache : 24 * 3600, // 缓存时间, 0为不缓存, 单位为秒
 		storage : true, // 是否使用localstorage将数据保存到本地
 		url : '', // 链接地址
 		push : true, // true is push, false is replace, null for do nothing
-		show : '', // 展示的动画
-		title : '', // 标题
+		show : 'fade', // 展示的动画
+		title : '#maintitle', // 标题
 		titleSuffix : '',// 标题后缀
 		type : 'GET',
 		data : {
@@ -245,6 +268,7 @@
 		if (isCached !== true) {
 			isCached = false;
 		}else{
+			$(pjax.options.title).html(pjax.options.titlehtml);
 			pjax.options.showFn && pjax.options.showFn(data, function() {
 				pjax.options.callback && pjax.options.callback.call(pjax.options.element,{
 					type : isCached? 'cache' : 'success'
@@ -257,28 +281,24 @@
 		if (pjax.html) {
 			data = $(data).filter(pjax.html).html();
 		}
-		if ((data || '').indexOf('<html') != -1) {
+		if (data && data.indexOf('<html') != -1) {
 			pjax.options.callback && pjax.options.callback.call(pjax.options.element, {
 				type : 'error'
 			});
 			location.href = pjax.options.url;
 			return false;
 		}
-		var title = pjax.options.title || "", el;
-		if (pjax.options.element) {
-			el = $(pjax.options.element);
-			title = el.attr('title') || el.text();
-		}
-		var matches = data.match(/<title>(.*?)<\/title>/);
-		if (matches) {
-			title = matches[1];
-		}
-		if (title) {
-			if (title.indexOf(pjax.options.titleSuffix) == -1) {
-				title += pjax.options.titleSuffix;
-			}
-		}
-		document.title = title;
+		// var title = pjax.options.title || "", el;
+		// if (pjax.options.element) {
+		// 	el = $(pjax.options.element);
+		// 	title = el.attr('title') || el.text();
+		// }
+		// var matches = data.match(/<title>(.*?)<\/title>/);
+		// if (matches) {
+		// 	title = matches[1];
+		// }
+		//pushstate yuan weizhi
+		
 		pjax.state = {
 			container : pjax.options.container,
 			timeout : pjax.options.timeout,
@@ -288,10 +308,6 @@
 			title : title,
 			url : pjax.options.url
 		};
-		// var query = $.param(pjax.options.data);
-		// if (query != "") {
-		// 	pjax.state.url = pjax.options.url + (/\?/.test(pjax.options.url) ? "&" : "?") + query;
-		// }
 		if (pjax.options.push) {
 			// if (!pjax.active) {
 			// 	history.replaceState($.extend({}, pjax.state, {
@@ -303,10 +319,22 @@
 		} else if (pjax.options.push === false) {
 			history.replaceState(pjax.state, document.title, pjax.options.url);
 		}
-		// 设置cache  && !isCached
-		if (pjax.options.cache) {
-			Util.setCache(pjax.options.url, data, title, pjax.options.storage);
+		var title=getUrlParams(decodeURIComponent(location.href),"title");
+		if(title && pjax.options.titleSuffix){
+			if(title.indexOf(pjax.options.titleSuffix) == -1){
+				title = pjax.options.titleSuffix + title;
+			}
 		}
+		$(pjax.options.title).html(title);
+		// var query = $.param(pjax.options.data);
+		// if (query != "") {
+		// 	pjax.state.url = pjax.options.url + (/\?/.test(pjax.options.url) ? "&" : "?") + query;
+		// }
+		
+		// 设置cache  && !isCached
+		// if (pjax.options.cache) {
+		// 	Util.setCache(pjax.options.url, data, title, pjax.options.storage);
+		// }
 		pjax.options.showFn && pjax.options.showFn(data, function() {
 			pjax.options.callback && pjax.options.callback.call(pjax.options.element,{
 				type : isCached? 'cache' : 'success'
@@ -316,7 +344,7 @@
 	
 	// 发送请求
 	pjax.request = function(options,op) {
-		options = $.extend(true, pjax.defaultOptions, options);
+		options = $.extend(true,{}, pjax.defaultOptions, options);
 		var cache, container = $(options.container);
 		options.oldUrl = Util.geturlname(location.href);
 		options.url = Util.getRealUrl(options.url);
@@ -344,7 +372,7 @@
 		pjax.options.success = pjax.success;
 		if (op && options.cache && (cache = Util.getCache(options.url, options.cache, options.storage))) {
 			options.beforeSend();
-			options.title = cache.title;
+			options.titlehtml = cache.title;
 			pjax.success(cache.data, true);
 			options.complete();
 			return true;
@@ -353,21 +381,26 @@
 			pjax.xhr.onreadystatechange = $.noop;
 			pjax.xhr.abort();
 		}
-		if(op =="init"){
-			pjax.state = {
-				container : "#container",    ////////////////////////////////////////////////////////
-				timeout : pjax.options.timeout,
-				cache : pjax.options.cache,
-				storage : pjax.options.storage,
-				show : pjax.options.show,
-				title : document.title,
-				url : pjax.options.oldUrl
-			};
-			history.pushState(pjax.state, document.title, pjax.options.oldUrl);
-			// Util.setCache(pjax.options.oldUrl, $(pjax.options.container).html(), title, pjax.options.storage);
-		}else{
-			pjax.xhr = $.ajax(pjax.options);
+		// if(op =="init"){
+		// 	pjax.state = {
+		// 		container : "#container",    ////////////////////////////////////////////////////////
+		// 		timeout : pjax.options.timeout,
+		// 		cache : pjax.options.cache,
+		// 		storage : pjax.options.storage,
+		// 		show : pjax.options.show,
+		// 		title : document.title,
+		// 		url : pjax.options.oldUrl
+		// 	};
+		// 	history.pushState(pjax.state, document.title, pjax.options.oldUrl);
+		// 	// Util.setCache(pjax.options.oldUrl, $(pjax.options.container).html(), title, pjax.options.storage);
+		// }else{
+		if (pjax.options.cache) {
+			//Util.setCache(pjax.options.url, data, title, pjax.options.storage);
+			var curhref=Util.geturlname(location.href),maintitle=$(options.title).html();
+			Util.setCache(curhref,$(options.container).html(), maintitle,options.storage);
 		}
+		pjax.xhr = $.ajax(pjax.options);
+		// }
 	};
 
 	// popstate event
@@ -387,7 +420,7 @@
 					timeout : state.timeout,
 					cache : state.cache,
 					storage : state.storage,
-					title: state.title,
+					titlehtml: state.title,
 					element: null
 				};
 				pjax.request(data,"back");
@@ -395,12 +428,12 @@
 				window.location = location.href;
 			}
 		}else{
-			
-			pjax.request({},"init");
+			// pjax.request({},"init");
 		}
 	});
 
 	// not support
+	//alert(Util.support.pjax);
 	if (!Util.support.pjax) {
 		pjax = function() {
 			return true;
@@ -415,7 +448,7 @@
 	$.pjax = pjax;
 	$.pjax.util = Util;
 
-	// extra
+	// extras
 	if ($.inArray('state', $.event.props) < 0) {
 		$.event.props.push('state')
 	}

@@ -6,33 +6,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/komh5.css"/>
-		<!--<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>-->
+		<!-- // <script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script> -->
 		<script src="../js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/mui.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/pjax.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/kom.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript" charset="utf-8">
-			$(function(){
-				$.pjax({
-					selector:"div.kom-entry",
-					container:"#container",
-					show: 'fade',
-					titleSuffix: ''
-				});
-				$(".mui-action-backup2").on("click",function(){
-					window.history.back();
-				});
-			});
-		</script>
+		<script src="../js/kom2.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-backup2 mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">标题</h1>
+			<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" id="maintitle">Commit & Sell out管理</h1>
 		</header>
 		<div id="container" class="mui-content" data-initajax="true">
 			  <div class="mui-content-padded" >
-				<div class="kom-entry" data-entry="o60" style="margin-top:10px" href="viewdetail.html">
+				<div class="kom-entry" data-entry="o60" style="margin-top:10px">
 					已丢单
 				</div>
 				<div class="kom-entry" data-entry="c0">
