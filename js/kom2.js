@@ -6,9 +6,9 @@ $(function(){
 	});
 	//共用方法 && 自定义
   	$.back=function(){
-  		if (window.history.length > 1) {
-			window.history.back();
-		}
+  		//if (window.history.length > 1) {
+		window.history.back();
+		//}
   	}
 	//data-dropdownlist
 	$("div.mui-input-row").each(function(){
@@ -23,6 +23,20 @@ $(function(){
 			})
 		}
 	});
+	// //添加jquery slideleft
+	// $.fn.slideleftshow=function(speed,callback){
+	// 	this.animate({
+	// 		// paddingLeft : "show",marginLeft : "show",,paddingLeft : "show",marginLeft : "show"
+	// 		paddingLeft:0
+	// 	},speed,"linear",callback);
+	// }
+	// $.fn.slidelefthide=function(speed,callback){
+	// 	this.animate({ 
+	// 		// paddingRight : "hide",,marginRight : "hide",paddingLeft : "hide",marginLeft : "hide"
+	// 		 width:"hide",opaticy:"hide"		
+	// 		//left:parseInt(this.css('left'),10)==0 ? -this.outerWidth() : 0
+	// 	},speed,callback);
+	// }
 	//kom-entry 块数据的加载与显示
 	$.fn.initAjax=function(options){
 		var _this=$(this);
@@ -51,7 +65,7 @@ $(function(){
 				tr.executeSql("select * from costatustable",[],function(tx,rs){
 					var rows=rs.rows,len=rows.length,data={};
 					if(len){
-						alert("load data from local db!");
+						//alert("load data from local db!");
 						for(var i=0;i<len;i++){
 							var item=rows.item(i);
 							(item.statusobj!= "undefined") && (data[item.costatus]=JSON.parse(item.statusobj));
@@ -95,7 +109,19 @@ $(function(){
 		}
 	});
 	$(".mui-action-backup").on("click",function(e){
-		if($(this).data("backtop")){
+		if($(this).data("backtop") =="1"){
+			if(mui.os.ios){
+				window.location="objc://goback";
+			}else{
+				
+			}
+		}else{
+			$.back();
+		}
+		return false;
+	});
+	$(".mui-action-backup2").on("click",function(e){
+		if($(this).data("backtop") == "1"){
 			if(mui.os.ios){
 				window.location="objc://goback";
 			}else{
@@ -173,14 +199,12 @@ function initentrydata(ajaxdata,nopjax){
 					_this.append("<div class='otherinfo'>"+data.projectnum+"|"+data.amout+"</div>");
 				}
 			}
-			else
-				_this.append("<div class='otherinfo'>&nbsp;</div>");
 			db.transaction(function(tx){
 				tx.executeSql("create table if not exists costatustable (costatus,statusobj)");
-				console.log("delete table "+ entrystr)
-				tx.executeSql("delete from costatustable where costatus="+entrystr);
+				//console.log("delete table "+ entrystr)
+				//tx.executeSql("delete from costatustable where costatus="+entrystr);
 		  		tx.executeSql("insert into costatustable(costatus,statusobj) values ('"+entrystr+"','"+JSON.stringify(data)+"')");
-		  		console.log("insert into costatustable"+entrystr);
+		  		//console.log("insert into costatustable"+entrystr);
 		  	});
 		}
 	})
@@ -189,6 +213,7 @@ function initentrydata(ajaxdata,nopjax){
 		init:true,
 		selector:"div.kom-entry",
 		titleSuffix: 'Commit & Sell out ',
+		offCanvas:true,
 		sethref:function(curobj){
 			var _this=$(curobj),returnvalue=false;;
 			if(_this.hasClass("entry-dis")){
@@ -205,7 +230,7 @@ function initentrydata(ajaxdata,nopjax){
 			return returnvalue;
 		},
 		callback:function(obj){
-			alert(obj.type);
+			//alert(obj.type);
 			viewdataload();
 		}
 	});
@@ -214,7 +239,8 @@ function viewdataload(){
 	//data-loading
 	$("div.mui-loading").each(function(){
 		var _this=$(this);
-		_this.height(window.screen.height+"px");
+		// alert(window.screen.height);
+		// _this.height(window.screen.height+"px");
 		if(_this.data("loading")){
 			var innerhtml='<div class="mui-spinner">';
 			for(var i=0;i<12;i++){

@@ -2,32 +2,44 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Commit&Sell out</title>
+		<title></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/komh5.css"/>
-		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/kom.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/pjax.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/kom2.js" type="text/javascript" charset="utf-8"></script>
+		
+		<!--<link rel="stylesheet" type="text/css" href="//kom3.eisoo.com/kommobiletest/css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="//kom3.eisoo.com/kommobiletest/css/komh5.css"/>
+		<script src="//kom3.eisoo.com/kommobiletest/js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="//kom3.eisoo.com/kommobiletest/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="//kom3.eisoo.com/kommobiletest/js/pjax.js" type="text/javascript" charset="utf-8"></script>
+		<script src="//kom3.eisoo.com/kommobiletest/js/kom2.js" type="text/javascript" charset="utf-8"></script>-->
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<a href="" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">Commit & Sell out管理</h1>
+			<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="1"></a>
+			<h1 class="mui-title" id="maintitle">Commit & Sell out管理</h1>
+			<a class="mui-action-backup2 mui-icon mui-icon-left-nav mui-pull-right" data-backtop="1"></a>
 		</header>
-		<div class="mui-content" data-initajax="true" data-pullload="true">
-			<div class="mui-content-padded" >
+		<div id="container" class="mui-content" data-initajax="true">
+			  <div class="mui-content-padded" >
 				<div class="kom-entry" data-entry="o60" style="margin-top:10px">
 					已丢单
+					<div class='otherinfo'>&nbsp;</div>
 				</div>
 				<div class="kom-entry" data-entry="c0">
 					<div class="kom-entry-trans"></div>
 					Commit待申请
+					<div class='otherinfo'>&nbsp;</div>
 				</div>
 				<div class="kom-entry" data-entry="c1">
 					<div class="kom-entry-trans"></div>
 					<span class="mui-badge mui-badge-danger posbadge">2</span>
 					Commit审核中
+					<div class='otherinfo'>&nbsp;</div>
 				</div>
 				<div class="kom-entry-all" style="margin-bottom: -10px;">
 					<div class="kom-entry kom-entry-harf harf-left entry-dis">
@@ -41,10 +53,12 @@
 					<div class="kom-entry kom-entry-harf harf-left" data-entry="o0-0">
 						<div class="kom-entry-trans"></div>
 						待Sell Out
+						<div class='otherinfo'>&nbsp;</div>
 					</div>
 					<div class="kom-entry kom-entry-harf" data-entry="o0-1">
 						<div class="kom-entry-trans"></div>
 						待Sell Out
+						<div class='otherinfo'>&nbsp;</div>
 					</div>
 				</div>
 				<div class="kom-entry-all">
@@ -52,47 +66,56 @@
 						<div class="kom-entry-trans"></div>
 						<span class="mui-badge mui-badge-danger posbadge">2</span>
 						待审核
+						<div class='otherinfo'>&nbsp;</div>
 					</div>
 					<div class="kom-entry kom-entry-harf " data-entry="o1-1">
 						<div class="kom-entry-trans"></div>
 						<span class="mui-badge mui-badge-danger posbadge">2</span>
 						待审核
+						<div class='otherinfo'>&nbsp;</div>
 					</div>
 				</div>
 				<div class="kom-entry-all">
 					<div class="kom-entry kom-entry-harf harf-left" data-entry="o10-0">
 						<div class="kom-entry-trans"></div>
 						已审未签
+						<div class='otherinfo'>&nbsp;</div>
 					</div>
 					<div class="kom-entry kom-entry-harf " data-entry="o10-1">
 						<div class="kom-entry-trans"></div>
 						已审未签
+						<div class='otherinfo'>&nbsp;</div>
 					</div>
 				</div>
 				<div class="kom-entry-all">
 					<div class="kom-entry kom-entry-harf harf-left" data-entry="o30-0">
 						<div class="kom-entry-trans"></div>
 						已Sell Out
+						<div class='otherinfo'>&nbsp;</div>
 					</div>
 					<div class="kom-entry kom-entry-harf " data-entry="o30-1">
 						<div class="kom-entry-trans"></div>
 						已Sell Out
+						<div class='otherinfo'>&nbsp;</div>
 					</div>
 				</div>
 				<div class="kom-entry-all">
 					<div class="kom-entry kom-entry-harf harf-left" data-entry="o35">
 						<div class="kom-entry-trans"></div>
 						发货中
+						<div class='otherinfo'>&nbsp;</div>
 					</div>
 					<div class="kom-entry kom-entry-harf " data-entry="o36">
 						<div class="kom-entry-trans"></div>
 						实施中
+						<div class='otherinfo'>&nbsp;</div>
 					</div>
 				</div>
 				<div class="kom-entry-all">
 					<div class="kom-entry kom-entry-harf harf-left" data-entry="o40">
 						<div class="kom-entry-trans"></div>
 						已提货
+						<div class='otherinfo'>&nbsp;</div>
 					</div>
 					<div class="kom-entry kom-entry-harf entry-dis">
 						<div class="kom-entry-trans"></div>
@@ -101,8 +124,10 @@
 				</div>
 				<div class="kom-entry" data-entry="o50">
 					已完成
+					<div class='otherinfo'>&nbsp;</div>
 				</div>
 			</div>
+		   
 		</div>
 	</body>
 </html>
