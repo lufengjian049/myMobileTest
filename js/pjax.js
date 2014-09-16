@@ -222,14 +222,18 @@
 			this.html(data);
 			callback && callback.call(this, data, isCached);
 		},
-		fade: function(data, callback, isCached){
+		fade: function(data, callback, isCached,offcanvas){
 			var $this = this;
 			// if(isCached){
 			// 	$this.html(data);
 			// 	callback && callback.call($this, data, isCached);
 			// }else{
 			this.fadeOut(200, function(){
+				if(offcanvas){
+					$this.add($("header")).add($(".wrapall")).wrapAll("<div class='mui-off-canvas-wrap mui-draggable'><div class='mui-inner-wrap'></div></div>");
+				} 
 				$this.html(data).fadeIn(200, function(){
+					offcanvas && $(".mui-inner-wrap").before($("#offCanvas"));
 					callback && callback.call($this, data, isCached);
 				});
 			});
