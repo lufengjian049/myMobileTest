@@ -213,7 +213,6 @@ function initentrydata(ajaxdata,nopjax){
 		init:true,
 		selector:"div.kom-entry",
 		titleSuffix: 'Commit & Sell out ',
-		offCanvas:true,
 		sethref:function(curobj){
 			var _this=$(curobj),returnvalue=false;;
 			if(_this.hasClass("entry-dis")){
@@ -304,15 +303,17 @@ function viewdataload(){
 
 		}
   	});
-	$("#clickdownwrap").on("tap",function(){
+	$("#clickdownwrap").on("click",function(){
   		var _this=$(this);
   		$("#othersearch").show();
   		_this.prev().find("button").hide().siblings("input").css({"width":"100%"}).attr("type","text");
   		_this.hide();
+  		$("#projectnames").attr("type","text").css("height","34px");
   		$("#clickdownwrapup").show();
   	})
-  	$("#clickdownwrapup").on("tap",function(){
+  	$("#clickdownwrapup").on("click",function(){
   		$("#othersearch").hide();
+  		$("#projectnames").attr("type","search");
   		$(this).hide();
 		$("#clickdownwrap").show().prev().find("button").show().siblings("input").attr("type","search").css({"width":"85%"});
   	})

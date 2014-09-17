@@ -122,8 +122,8 @@
 		if (!options.container || !options.selector) {
 			throw new Error('selector & container options must be set');
 		}
-		$('body').off('tap',options.selector);	
-		$('body').on('tap',options.selector, function(event) {
+		$('body').off('click',options.selector);	
+		$('body').on('click',options.selector, function(event) {
 			if (event.which > 1 || event.metaKey) {
 				return true;
 			}
@@ -230,7 +230,7 @@
 			// }else{
 			this.fadeOut(200, function(){
 				if(offcanvas){
-					$this.add($("header")).add($(".wrapall")).wrapAll("<div class='mui-off-canvas-wrap mui-draggable'><div class='mui-inner-wrap'></div></div>");
+					$this.add($(".wrapall")).wrapAll("<div class='mui-off-canvas-wrap mui-draggable'><div class='mui-inner-wrap'></div></div>");
 				} 
 				$this.html(data).fadeIn(200, function(){
 					offcanvas && $(".mui-inner-wrap").before($("#offCanvas"));
