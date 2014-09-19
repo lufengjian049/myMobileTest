@@ -6,7 +6,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/komh5.css"/>
-		<script src="../js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="../js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>-->
 		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/pjax.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/kom2.js" type="text/javascript" charset="utf-8"></script>
@@ -22,7 +23,8 @@
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="1"></a>
 			<h1 class="mui-title" id="maintitle">Commit & Sell out管理</h1>
-			<a class="mui-action-backup2 mui-icon mui-icon-left-nav mui-pull-right" data-backtop="1"></a>
+			<!--<a class="mui-action-backup2 mui-icon mui-icon-left-nav mui-pull-right" data-backtop="1"></a>-->
+			<a href="javascript:" id="extenddivmenu" class="mui-icon mui-icon-bars mui-pull-right" style="display:none"></a>
 		</header>
 		<div id="container" class="mui-content" data-initajax="true">
 			  <div class="mui-content-padded" >
@@ -157,6 +159,6 @@
 				</div>
 			</li>
 		</div>
-		<div class="mui-off-canvas-backdrop wrapall"></div>
+		<div class="i-loading"></div>
 	</body>
 </html>

@@ -47,16 +47,16 @@ $(function(){
 					tx.executeSql("drop table costatustable");
 					console.log("delete table costatustable");
 				});
-				mui(".mui-content-padded").pullRefresh({
-					down: {
-		                callback: function(callback) {
-		                    $.get("http://kom3.eisoo.com/kommobiletest/init2.json?callback=?",{},function(data){
-		                    	callback();
-		                    	options.callback(data);
-		                    },"jsonp");
-		                }
-		            }
-				});
+				// mui(".mui-content-padded").pullRefresh({
+				// 	down: {
+		  //               callback: function(callback) {
+		  //                   $.get("http://kom3.eisoo.com/kommobiletest/init2.json?callback=?",{},function(data){
+		  //                   	callback();
+		  //                   	options.callback(data);
+		  //                   },"jsonp");
+		  //               }
+		  //           }
+				// });
 			}
 			//判断 本地数据库中是否存在数据
 			db.transaction(function(tr){
@@ -110,7 +110,7 @@ $(function(){
 	});
 	$(".mui-action-backup").on("click",function(e){
 		if($(this).data("backtop") =="1"){
-			if(mui.os.ios){
+			if(true){
 				window.location="objc://goback";
 			}else{
 				
@@ -122,7 +122,8 @@ $(function(){
 	});
 	$(".mui-action-backup2").on("click",function(e){
 		if($(this).data("backtop") == "1"){
-			if(mui.os.ios){
+			//mui.os.ios=true;
+			if(true){
 				window.location="objc://goback";
 			}else{
 				
@@ -132,7 +133,33 @@ $(function(){
 		}
 		return false;
 	});
+	$("#extenddivmenu").on("tap",function(){
+		var transf=$("#maincontain").css("webkitTransform") || "translate3d(0,0,0)",tanre=/translate(?:3d)?\((.+?)\)/;
+		var result=transf.match(tanre);
+		result=result[1].split(',');
+		$("#offCanvas").show();
+		if(parseInt(result[0]) == 0){
+			$("#maincontain").css({
+                        "-webkit-transform":"translate3d(-80%,0,0)",
+                        "-webkit-transition":"-webkit-transform .4s ease-in-out"
+        	})
+        	setTimeout(function(){
+        		$("#maincontain").css("z-index","0");
+        	},400)
+        }
+		else{
+			$("#maincontain").css({
+                        "-webkit-transform":"translate3d(0,0,0)",
+                        "-webkit-transition":"-webkit-transform .4s ease-in-out",
+                        "z-index":"2"
+        	})
+		}
+        return false;
+	})
 });
+function ontouchmove(e){
+	e.preventDefault();
+}
 function iosinitevent(options){
 	alert(options.method);
 	options.bridge.init(function(message, responseCallback) {
@@ -260,6 +287,15 @@ function viewdataload(){
 			initentrydata(data,nopjax);
 		}
 	});
+	// new Drawer({
+	//     dir: "left",//菜单位于右边，默认值为左边，按照实际须要设置
+	//     container: $("#container"),//总容器
+	//     nav: $("#offCanvas"),//菜单栏
+	//     main: $("#maincontain")//主界面            
+	//  });
+	// $("#container").on("swipeLeft",function(){
+	// 	alert("swipeleft");
+	// });
 	// -----viewdetail.html
 	$("#ultalble").on("longtap","li",function(){
   		var sheight=window.screen.height;
@@ -275,7 +311,7 @@ function viewdataload(){
 		sethref:function(curobj){
 			var costatus=$("#typehidden").val(),type='',pstaus=costatus.substr(0,1),
 	  		status=costatus.substr(1),ordertype='',title='订单详情';
-	  		if(status.indexOf('-')){
+	  		if($(status).indexOf('-')){
 	  			var statusarr=status.split('-');
 	  			ordertype=statusarr[1];status=statusarr[0];
 	  		}
@@ -303,59 +339,69 @@ function viewdataload(){
 
 		}
   	});
-	$("#clickdownwrap").on("click",function(){
+	$("#clickdownwrap").on("tap",function(){
   		var _this=$(this);
   		$("#othersearch").show();
-  		_this.prev().find("button").hide().siblings("input").css({"width":"100%"}).attr("type","text");
+  		_this.prev().find("button").hide().siblings("input").css({"width":"100%","text-align":"left"}).next().hide();
   		_this.hide();
-  		$("#projectnames").attr("type","text").css("height","34px");
   		$("#clickdownwrapup").show();
+  		$(".searchdiv input").each(function(){
+  			if(!$(this).val()){
+  				$(this).focus();
+  				return false;
+  			}
+  		});
   	})
-  	$("#clickdownwrapup").on("click",function(){
+  	$("#clickdownwrapup").on("tap",function(){
   		$("#othersearch").hide();
-  		$("#projectnames").attr("type","search");
   		$(this).hide();
-		$("#clickdownwrap").show().prev().find("button").show().siblings("input").attr("type","search").css({"width":"85%"});
+		$("#clickdownwrap").show().prev().find("input").css({"width":"100%","text-align":"center"}).next().show();
+  	})
+  	$(".isearch>span").on("tap",function(){
+  		var _this=$(this);
+  		_this.hide();
+  		_this.prev().focus().css({"width":"85%","text-align":"left"});
+  		_this.next().show();
   	})
 }
 // viewdetail 页面添加 下拉 上啦事件处理
 function pulldownupex(){
-	mui.init({
-  		swipeBack:false,
-		optimize: false,
-		pullRefresh:{
-			container: '.mui-content-padded',
-			down: {
-                contentdown: '下拉可以刷新',
-                contentover: '释放立即刷新',
-                contentrefresh: '正在刷新...',
-                callback: function(callback) {
-                    setTimeout(function() {
-                        var table = $('.mui-table-view'),
-                        itemhtml=$("#itemtemp").html().replace("$proname$","神华乌海能源有限责任公司").replace("$num$","LYSYW-046B-P8TO").replace("$date$","张大杰 2014-9-2");
-                        table.prepend(itemhtml);
-                        callback(); //refresh completed
-                    }, 1000);
-                }
-            },
-            up:{
-            	contentdown: '上拉显示更多',
-                contentover: '释放立即刷新',
-                contentrefresh: '正在刷新...',
-                callback:function(callback){
-                	setTimeout(function() {
-                        var table = $('.mui-table-view'),
-                        itemhtml=$("#itemtemp").html().replace("$proname$","跨地区项目").replace("$num$","LYSYW-046B-P8TO").replace("$date$","张大杰 2014-9-2"),htmls="";
-                        for(var i=0;i<10;i++){
-                        	htmls+=itemhtml;
-                        }
-                        table.append(htmls);
-                        callback(); //refresh completed
-                    }, 1000);
-                }
-            }
-		}
-  	});
+	// mui.init({
+ //  		swipeBack:false,
+	// 	optimize: false,
+	// 	pullRefresh:{
+	// 		container: '.mui-content-padded',
+	// 		down: {
+ //                contentdown: '下拉可以刷新',
+ //                contentover: '释放立即刷新',
+ //                contentrefresh: '正在刷新...',
+ //                callback: function(callback) {
+ //                    setTimeout(function() {
+ //                        var table = $('.mui-table-view'),
+ //                        itemhtml=$("#itemtemp").html().replace("$proname$","神华乌海能源有限责任公司").replace("$num$","LYSYW-046B-P8TO").replace("$date$","张大杰 2014-9-2");
+ //                        table.prepend(itemhtml);
+ //                        callback(); //refresh completed
+ //                    }, 1000);
+ //                }
+ //            },
+ //            up:{
+ //            	contentdown: '上拉显示更多',
+ //                contentover: '释放立即刷新',
+ //                contentrefresh: '正在刷新...',
+ //                callback:function(callback){
+ //                	setTimeout(function() {
+ //                        var table = $('.mui-table-view'),
+ //                        itemhtml=$("#itemtemp").html().replace("$proname$","跨地区项目").replace("$num$","LYSYW-046B-P8TO").replace("$date$","张大杰 2014-9-2"),htmls="";
+ //                        for(var i=0;i<10;i++){
+ //                        	htmls+=itemhtml;
+ //                        }
+ //                        table.append(htmls);
+ //                        callback(); //refresh completed
+ //                    }, 1000);
+ //                }
+ //            }
+	// 	}
+ //  	});
 }
 function showbackinfo(info){
 	alert(info);

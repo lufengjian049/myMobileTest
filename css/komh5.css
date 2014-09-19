@@ -1,13 +1,14 @@
 /*reset:;*/
 .mui-content{
-	padding-bottom: 10px;
+	/*padding-bottom: 10px;*/
 }
 .mui-content-padded{
-	padding-bottom: 20px;
+	/*padding-bottom: 20px;*/
 }
 .mui-table-view-cell{
 	padding: 4px 8px;
 	padding-right: 0;
+	background: none;
 }
 .mui-input-group .mui-input-row{
 	height: 34px;
@@ -50,6 +51,9 @@ padding: 10px 5px;white-space: nowrap;padding-right: 10px;
 .mui-item div:first-child{
 	overflow: hidden;text-overflow: ellipsis;
 }
+.mui-search .mui-placeholder .mui-icon-search{
+	float: right;height: 100%;line-height: 34px;margin-right: 10px;
+} 
 /*new*/
 .kom-entry{
   	margin: 0 auto;
@@ -74,7 +78,7 @@ padding: 10px 5px;white-space: nowrap;padding-right: 10px;
   	z-index: 3;
   }
   .harf-left{
-  	width: 50%;
+  	width: 49%;
 	/*background: #4cd964;*/
 	background: #facd89;
 	border-radius: 5px 0 0 5px;
@@ -114,10 +118,10 @@ padding: 10px 5px;white-space: nowrap;padding-right: 10px;
 	z-index: 9;
   }
   .searchdiv{
-  	padding-top: 5px;padding-bottom: 5px;background-color: #efeff4;
+  	padding-bottom: 5px;background-color: #efeff4;position: fixed;z-index: 5;width: 100%;
   }
-  .searchdiv form{
-  	background-color: #FFF;padding: 5px 5px 0 5px;
+  .searchdiv div{
+  	background-color: #FFF;padding: 2px 5px 0 5px;
   }
   .mui-table-view-cell h6{
   	float: left;
@@ -129,15 +133,15 @@ padding: 10px 5px;white-space: nowrap;padding-right: 10px;
   	background-color: #f2f2f3;
   }
   #othersearch{
-  	display: none;position: absolute;z-index: 7;width: 100%;border-radius: 10px;
+  	display: none;position: absolute;z-index: 7;width: 100%;border-radius: 0 0 10px 10px;
   	background:-webkit-gradient(linear,0 0,0 100%,from(#fff), to(#e4e3e3));;
   	padding:0 5px;margin-left: -5px;box-shadow: 0px 1px 1px 0px #a3a3a3;padding-top: 4px;
   }
    #othersearch .mui-input-row{
    	margin-bottom: 4px;
    }
-  #othersearch input{
-  	background: none;height: 34px;
+  .searchdiv input,button{
+  	background: none;height: 32px;
   }
   #clickdownwrap{
   	text-align: center;margin-top: -6px;height:24px;
@@ -145,16 +149,17 @@ padding: 10px 5px;white-space: nowrap;padding-right: 10px;
   .mui-input-row input{
   	border: 1px solid #ccc;border-radius: 10px;background: none;
   }
-  .searchdiv{
-  	position: relative;height: 77px;
-  }
   .btnsrow span:last-child{
-  	border-right: 0;
+  	border-right: 1px solid #c80000;;
+  	border-radius: 0 10px 10px 0;
+  }
+  .btnsrow span:first-child{
+  	border-radius: 10px 0 0 10px;
   }
   .btnsrow span{
   	float:left;cursor: pointer;padding: 6px 12px;font-size: 14px;font-weight: bolder;line-height: 1.42;
   	color: #C80000;text-align: center;width: 25%;border: 0;border-right: 1px solid #c80000;border-radius: 0;
-  	height: 100%;
+  	height: 100%;border-top: 1px solid #c80000;border-bottom: 1px solid #c80000;
   }
   .btnsrow span.active{
   	background: #C80000;color: #fff;
@@ -202,6 +207,27 @@ div.kom-entry-all div.kom-entry.kom-entry-harf.entry-dis .kom-entry-trans{
 	position: relative;
 	left: 0;
 }
-.btnsrow{
-	height: 35px;border: 1px solid #c80000;border-radius: 10px;background: #fff;
+.slidemenu{
+	position: fixed;top: 0;bottom: 0;right: 0;z-index: 1;width: 100%;
+	margin-top: 40px;display: none;
+}
+.slidemenu>div{
+width: 80%;
+float: right;
+background: #8F8F8F;
+}
+.sildecontain{
+	left: 0;z-index: 2;width: 100%;position: absolute;margin-top: 59px;
+}
+.isearch{
+	background: none;
+}
+.isearch input{
+	text-align: center;
+}
+#clickdownwrapup{
+text-align: center;display: none;background: none;
+}
+.i-loading{
+	position: fixed;width: 100%;z-index: 99999;background: rgba(255,255,255,0.4);top: 0;height: 100%;
 }
