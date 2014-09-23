@@ -10,33 +10,7 @@ $(function(){
 		window.history.back();
 		//}
   	}
-	//data-dropdownlist
-	$("div.mui-input-row").each(function(){
-		var _this=$(this);
-		if(_this.data("dropdownlist")){
-			_this.find("input[type='text']").on("focus",function(){
-				if(_this.next().is("ul")){
-					_this.next().show();
-				}else{
-					createddllist(_this);
-				}
-			})
-		}
-	});
-	// //添加jquery slideleft
-	// $.fn.slideleftshow=function(speed,callback){
-	// 	this.animate({
-	// 		// paddingLeft : "show",marginLeft : "show",,paddingLeft : "show",marginLeft : "show"
-	// 		paddingLeft:0
-	// 	},speed,"linear",callback);
-	// }
-	// $.fn.slidelefthide=function(speed,callback){
-	// 	this.animate({ 
-	// 		// paddingRight : "hide",,marginRight : "hide",paddingLeft : "hide",marginLeft : "hide"
-	// 		 width:"hide",opaticy:"hide"		
-	// 		//left:parseInt(this.css('left'),10)==0 ? -this.outerWidth() : 0
-	// 	},speed,callback);
-	// }
+	
 	//kom-entry 块数据的加载与显示
 	$.fn.initAjax=function(options){
 		var _this=$(this);
@@ -72,10 +46,13 @@ $(function(){
 						}
 						options.callback(data,true);
 					}else{
-						$.ajax({url:"http://kom3.eisoo.com/kommobiletest/init.json?callback=?",async:false,dataType:"jsonp",jsonpCallback:"jsonp1",success:function(data){
-							options.callback(data);
+						var token=getUrlParams(location.href,"token"),
+						url="http://192.168.4.202:8280/komrestservice/quote/comanage?token="+token;
+						$("#huserid").val(token);
+						//alert(token);
+						$.ajax({url:url,async:false,success:function(data){
+							options.callback(data['data']);
 						}});
-						
 					}
 				});
 			});
@@ -134,28 +111,34 @@ $(function(){
 		return false;
 	});
 	$("#extenddivmenu").on("tap",function(){
-		var transf=$("#maincontain").css("webkitTransform") || "translate3d(0,0,0)",tanre=/translate(?:3d)?\((.+?)\)/;
+		var transf=$("#offcanvaswrap").css("webkitTransform") || "translate3d(0,0,0)",tanre=/translate(?:3d)?\((.+?)\)/;
 		var result=transf.match(tanre);
 		result=result[1].split(',');
-		$("#offCanvas").show();
+		var newobj=$("header").add("#container"); 
 		if(parseInt(result[0]) == 0){
-			$("#maincontain").css({
+			newobj.wrapAll("<div id='offcanvaswrap'></div>");//maincontain
+			$("#offcanvaswrap").css("position","absolute").before($("#offCanvas"));
+			$("#offCanvas").show();
+			$("#offcanvaswrap").css({
                         "-webkit-transform":"translate3d(-80%,0,0)",
                         "-webkit-transition":"-webkit-transform .4s ease-in-out"
         	})
-        	setTimeout(function(){
-        		$("#maincontain").css("z-index","0");
-        	},400)
+        	// setTimeout(function(){
+        	// 	$("#offcanvaswrap").css("z-index","0");
+        	// },400)
         }
 		else{
-			$("#maincontain").css({
+			$("#offCanvas").appendTo($("#container"));
+			$("#offCanvas").hide();
+			$("#offcanvaswrap").css({
                         "-webkit-transform":"translate3d(0,0,0)",
-                        "-webkit-transition":"-webkit-transform .4s ease-in-out",
-                        "z-index":"2"
+                        "-webkit-transition":"-webkit-transform .4s ease-in-out"
         	})
+        	newobj.unwrap();
 		}
         return false;
 	})
+
 });
 function ontouchmove(e){
 	e.preventDefault();
@@ -193,48 +176,78 @@ function createddllist(curObj){
 }
 //注册ddl的选择数据事件
 function initDdlEvent(ulobj){
-	$("li",ulobj).on("click",function(){
+	$("li",ulobj).on("tap",function(){
   		var _this=$(this),inputs=_this.parent().prev().find("input");
   		inputs.eq(0).val(_this.attr("alt"));
   		inputs.eq(1).val(_this.html());
   		_this.parent().hide();
   	})
 }
-//加载列表数据
+//加载列表数据 ---状态详细页面
 function loaddatalist(loadObj){
-	var loadurl=loadObj.attr("loadurl"),formid=loadObj.attr("formid"),params="",itemTemp=$("#itemtemp").html();
-	//发送请求 -获取数据
-	var ulhtml="<ul class='mui-table-view'>";
-	for(var i=0;i<10;i++){
-		ulhtml +=itemTemp.replace("$proname$","跨地区项目"+(i)).replace("$num$","LYSYW-046B-P8TO").replace("$date$","崔伟宾 2014-9-2").replace("$curid$","10");
+	var loadurl=loadObj.attr("loadurl"),formid=loadObj.attr("formid"),itemTemp=$("#itemtemp").html(),
+	page=parseInt(loadObj.data("page")),token=$("#huserid").val(),typesh=$("#typehidden").val(),
+	secstatus=typesh.substring(1),status=secstatus,type="";
+	if(secstatus.indexOf('-')>0){
+		status=secstatus.split('-')[0];
+		type=secstatus.split('-')[1];
 	}
-	ulhtml +="</ul>";
-	loadObj.after(ulhtml);
-	loadObj.hide();
+	params={
+		kind:typesh.substr(0,1),
+		status:status,type:type,token:token,page:page
+	};
+	$("#"+formid).data("params",params);
+	$.mypost(loadurl,false,params,function(result){
+		if(result){
+			var ulhtml="<ul class='mui-table-view'>";
+			ulhtml+=setitemlist(result.data);
+			ulhtml +="</ul>";
+			loadObj.data("page",page+1);
+			loadObj.after(ulhtml);
+			loadObj.hide();
+		}
+	})
 }
 //初始化块数据
 function initentrydata(ajaxdata,nopjax){
 	$("div.kom-entry").each(function(){
-		var _this=$(this),entrystr=_this.data("entry");
+		var _this=$(this),entrystr=_this.data("entry"),param=_this.attr("param");
 		if(entrystr){
 			var data=ajaxdata[entrystr];
+			if(!data && _this.data("settotal")){
+				var emptyd={num:0,pasum:0},d1=ajaxdata[entrystr+"_0"] || emptyd,d2=ajaxdata[entrystr+"_1"] || emptyd;
+				data={
+					num:parseInt(d1.num)+parseInt(d2.num),
+					pasum:parseFloat(d1.pasum)+parseFloat(d2.pasum)
+				};
+			}
 			if(data){
-				var otherobj=_this.find(".otherinfo");
+				if(parseInt(data.num) <=0) return;
+				var otherobj=_this.find(".otherinfo"),amout=(parseFloat(data.pasum)/10000).toFixed(2);
 				if(otherobj.length){
-					otherobj.html(data.projectnum+"|"+data.amout);
+					otherobj.html(data.num+"|"+amout);
 				}else{
-					_this.append("<div class='otherinfo'>"+data.projectnum+"|"+data.amout+"</div>");
+					_this.append("<div class='otherinfo'>"+data.num+"|"+amout+"</div>");
 				}
+			}
+			if(param){
+				(parseInt(ajaxdata[param])> 0) && _this.find("span").html(ajaxdata[param]);
 			}
 			db.transaction(function(tx){
 				tx.executeSql("create table if not exists costatustable (costatus,statusobj)");
-				//console.log("delete table "+ entrystr)
-				//tx.executeSql("delete from costatustable where costatus="+entrystr);
-		  		tx.executeSql("insert into costatustable(costatus,statusobj) values ('"+entrystr+"','"+JSON.stringify(data)+"')");
-		  		//console.log("insert into costatustable"+entrystr);
+				// console.log("delete  from costatustable where costatus= "+ entrystr)
+				tx.executeSql("delete from costatustable where costatus=?",[entrystr],function(){
+					// console.log("delete ok");
+				});
+		  		//tx.executeSql("insert into costatustable(costatus,statusobj) values ('"+entrystr+"','"+JSON.stringify(data)+"')");
+		  		tx.executeSql("insert into costatustable(costatus,statusobj) values (?,?)",[entrystr,JSON.stringify(data)],function(){
+		  			//console.log("insert ok");
+		  		});
 		  	});
 		}
 	})
+	
+	$(".i-loading").hide();
 	if(nopjax) return;
 	$.pjax({
 		init:true,
@@ -263,6 +276,7 @@ function initentrydata(ajaxdata,nopjax){
 }
 function viewdataload(){
 	//data-loading
+	$("#typehidden").val(getUrlParams(decodeURIComponent(location.href),"type"));
 	$("div.mui-loading").each(function(){
 		var _this=$(this);
 		// alert(window.screen.height);
@@ -274,36 +288,21 @@ function viewdataload(){
 			}
 			innerhtml +="</div>";
 			_this.html(innerhtml);
-			setTimeout(function(){
-				loaddatalist(_this);
-			},1000);
+			loaddatalist(_this);
 		}
 	});
-	$("#typehidden").val(getUrlParams(decodeURIComponent(location.href),"type"));
-	pulldownupex();
 	// 初始化 右侧菜单
 	$("#offCanvas").initAjax({
 		callback:function(data,nopjax){
 			initentrydata(data,nopjax);
 		}
 	});
-	// new Drawer({
-	//     dir: "left",//菜单位于右边，默认值为左边，按照实际须要设置
-	//     container: $("#container"),//总容器
-	//     nav: $("#offCanvas"),//菜单栏
-	//     main: $("#maincontain")//主界面            
-	//  });
 	// $("#container").on("swipeLeft",function(){
-	// 	alert("swipeleft");
+	// 	$("#extenddivmenu").trigger("tap");
 	// });
-	// -----viewdetail.html
-	$("#ultalble").on("longtap","li",function(){
-  		var sheight=window.screen.height;
-  		$("#popbtns").css("margin-top",(sheight/2-25 )+"px");
-  		$(".mask").show().one("tap",function(){
-  			$(this).hide();
-  		});
-  	})
+	// $("#container").on("swipeRight",function(){
+	// 	$("#extenddivmenu").trigger("tap");
+	// });
   	//点击 列表项---为列表项绑定 Pjax
   	$.pjax({
   		selector:".pjaxitem",
@@ -339,6 +338,11 @@ function viewdataload(){
 
 		}
   	});
+	backfn();
+}
+function backfn(){
+	if(!$("#ajaxform").length) return;
+	//data-dropdownlist
 	$("#clickdownwrap").on("tap",function(){
   		var _this=$(this);
   		$("#othersearch").show();
@@ -352,6 +356,14 @@ function viewdataload(){
   			}
   		});
   	})
+  	// -----viewdetail.html
+	$("#ultalble").on("longTap","li",function(){
+  		var sheight=window.screen.height;
+  		$("#popbtns").css("margin-top",(sheight/2-25 )+"px");
+  		$(".mask").show().one("tap",function(){
+  			$(this).hide();
+  		});
+  	})
   	$("#clickdownwrapup").on("tap",function(){
   		$("#othersearch").hide();
   		$(this).hide();
@@ -363,45 +375,179 @@ function viewdataload(){
   		_this.prev().focus().css({"width":"85%","text-align":"left"});
   		_this.next().show();
   	})
+  	//时间查询按钮事件
+	$(".btnsrow").on("tap","span",function(){
+		var _this=$(this),index=_this.index(),otherdates=_this.parent().next().find("input"),
+		type=_this.attr("type"),inputdates=_this.parent().find("input");
+		if(_this.hasClass("active")){
+			return
+		}else{
+			_this.addClass("active").siblings().removeClass("active");
+			if(index == 3){ // other
+				otherdates.removeAttr("disabled");
+				inputdates.eq(0).val("");
+				inputdates.eq(1).val("");
+			}else{
+				var dateobj=gettimebytype(type);
+				inputdates.eq(0).val(dateobj.startdate);
+				inputdates.eq(1).val(dateobj.enddate);
+				otherdates.attr("disabled","disabled");
+			}
+		}
+	})
+	$("div.mui-input-row").each(function(){
+		var _this=$(this);
+		if(_this.data("dropdownlist")){
+			_this.find("input[type='text']").on("focus",function(){
+				if(_this.next().is("ul")){
+					_this.next().show();
+				}else{
+					createddllist(_this);
+				}
+			})
+		}
+	});
+	pulldownupex();
+	$(".searchdiv input").inputinit();
 }
 // viewdetail 页面添加 下拉 上啦事件处理
 function pulldownupex(){
-	// mui.init({
- //  		swipeBack:false,
-	// 	optimize: false,
-	// 	pullRefresh:{
-	// 		container: '.mui-content-padded',
-	// 		down: {
- //                contentdown: '下拉可以刷新',
- //                contentover: '释放立即刷新',
- //                contentrefresh: '正在刷新...',
- //                callback: function(callback) {
- //                    setTimeout(function() {
- //                        var table = $('.mui-table-view'),
- //                        itemhtml=$("#itemtemp").html().replace("$proname$","神华乌海能源有限责任公司").replace("$num$","LYSYW-046B-P8TO").replace("$date$","张大杰 2014-9-2");
- //                        table.prepend(itemhtml);
- //                        callback(); //refresh completed
- //                    }, 1000);
- //                }
- //            },
- //            up:{
- //            	contentdown: '上拉显示更多',
- //                contentover: '释放立即刷新',
- //                contentrefresh: '正在刷新...',
- //                callback:function(callback){
- //                	setTimeout(function() {
- //                        var table = $('.mui-table-view'),
- //                        itemhtml=$("#itemtemp").html().replace("$proname$","跨地区项目").replace("$num$","LYSYW-046B-P8TO").replace("$date$","张大杰 2014-9-2"),htmls="";
- //                        for(var i=0;i<10;i++){
- //                        	htmls+=itemhtml;
- //                        }
- //                        table.append(htmls);
- //                        callback(); //refresh completed
- //                    }, 1000);
- //                }
- //            }
-	// 	}
- //  	});
+	var loadobj=$(".mui-loading"),loadurl=loadobj.attr("loadurl"),table=$('.mui-table-view');
+	$("#maincontain").pullRefresh({
+		down: {
+                callback: function(callback) {
+                	//下拉 刷新
+                	table=$('.mui-table-view');
+                    setTimeout(function() {
+                        var itemhtml=$("#itemtemp").html().replace("$proname$","神华乌海能源有限责任公司").replace("$num$","LYSYW-046B-P8TO").replace("$date$","张大杰 2014-9-2");
+                        table.prepend(itemhtml);
+                        callback(); //refresh completed
+                    }, 1000);
+                }
+            },
+            up:{
+                callback:function(callback){
+                	//上拉 加载下一页
+                	var page=loadobj.data("page"),table=$('.mui-table-view');
+                	setTimeout(function() {
+                        var itemhtml=$("#itemtemp").html().replace("$proname$","跨地区项目").replace("$num$","LYSYW-046B-P8TO").replace("$date$","张大杰 2014-9-2"),htmls="";
+                        for(var i=0;i<10;i++){
+                        	htmls+=itemhtml;
+                        }
+                        table.append(htmls);
+                        callback(); //refresh completed
+                    }, 1000);
+                }
+            }
+	});
+}
+function setitemlist(rows){
+	var itemtemp=$("#itemtemp").html(),returnstr="",itemhtml="";
+	if(rows.length>0){
+		for(var i=0;i<rows.length;i++){
+			var currow=rows[i];
+			itemhtml=itemtemp.replace("$proname$","跨地区项目").replace("$num$","LYSYW-046B-P8TO").replace("$date$","张大杰 2014-9-2");
+			returnstr+=itemhtml;
+		}
+	}
+	return returnstr;
+}
+//获取搜索参数 返回 参数对象
+function getformparams(){
+	var obj={};
+	$("#ajaxform input").each(function(){
+		var _this=$(this);
+		if(!_this.attr("disabled")){
+			obj[$(this).attr("name")]=$(this).val();
+		}
+	})
+	return obj;
+}
+// viewdetail 搜索方法
+function searchlistdata(){
+	var loadobj=$(".mui-loading"),loadurl=loadobj.attr("loadurl"),params={};
+	params=$.extend($("#ajaxform").data("params"),getformparams());
+	$(".i-loading").show();
+	$.mypost(loadurl,false,params,function(result){
+		if(result){
+			var ulhtml="<ul class='mui-table-view'>";
+			ulhtml+=setitemlist(result.data);
+			ulhtml +="</ul>";
+			loadObj.data("page","1");
+			loadObj.next().remove();
+			loadObj.after(ulhtml);
+			$("#clickdownwrapup").trigger("tap");
+			$(".i-loading").hide();
+		}
+	})
+}
+//根据不同的类型获取时间 对象 {开始时间，结束时间}
+function gettimebytype(type){
+	var reobj={},nowdate=new Date(),nowyear=nowdate.getFullYear(),nowmonth=nowdate.getMonth(),
+	nowday=nowdate.getDate(),mstart,mend,qsm;
+	switch (type){
+		case 'month':
+			mstart=new Date(nowyear,nowmonth,1);
+			mend=new Date(nowyear,nowmonth,getMonthDays(nowyear,nowmonth));
+		break;
+		case 'week':
+			mstart=new Date(nowyear,nowmonth,nowday-nowdate.getDay()+1);
+			mend=new Date(nowyear,nowmonth,nowday+(6-nowdate.getDay())+1);
+		break;
+		case 'thisyear':
+			mstart=new Date(nowyear,"1","1");
+			mend=new Date(nowyear,"12","31");
+		break;
+		case 'thisquarter':
+			qsm=getQuarterStartMonth(nowmonth);
+			mstart=new Date(nowyear,qsm,1);
+			mend=new Date(nowyear,qsm+2,getMonthDays(nowyear,qsm+2));
+		break;
+		case 'lastquarter':
+			qsm=getQuarterStartMonth(nowmonth);
+			var lqsm=qsm-3;
+			if(lqsm<0){
+				lqsm=9;
+				nowyear-=1;
+			}
+			mstart=new Date(nowyear,lqsm,1);
+			mend=new Date(nowyear,lqsm+2,getMonthDays(nowyear,lqsm+2));
+		break;
+	}
+	if(mstart && mend){
+		reobj.startdate=formatDate(mstart);
+		reobj.enddate=formatDate(mend);
+	}
+	return reobj;
+}
+//获取某月的天数
+function getMonthDays(year,month){
+	var monthstartdate=new Date(year,month,1),
+	monthenddate=new Date(year,month+1,1);
+	return (monthenddate-monthstartdate)/(1000*60*60*24);
+}
+//获取本季度的开始月份
+function getQuarterStartMonth(month){
+	var qstartmonth=0;
+	if(month <3)
+		qstartmonth=0;
+	if(2<month && month <6)
+		qstartmonth=3;
+	if(5<month && month < 9)
+		qstartmonth =6;
+	if(month >8)
+		qstartmonth =9;
+	return qstartmonth;
+}
+function formatDate(date){
+	var year=date.getFullYear(),
+	month=date.getMonth()+1,
+	day=date.getDate();
+	if(month <10)
+		month="0"+month;
+	if(day<10)
+		day="0"+day;
+	return (year+"-"+month+"-"+day);
 }
 function showbackinfo(info){
 	alert(info);

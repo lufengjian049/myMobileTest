@@ -143,6 +143,9 @@
 			if (href === location.href) {
 				return true;
 			}
+			if($this.closest("#offCanvas").length > 0){
+				$("#extenddivmenu").trigger("tap");
+			}
 			// 只是hash不同
 			if (Util.getRealUrl(href) == Util.getRealUrl(location.href)) {
 				var hash = Util.getUrlHash(href);
@@ -450,7 +453,10 @@
 					cache : state.cache,
 					storage : state.storage,
 					titlehtml: state.title,
-					element: null
+					element: null,
+					callback:function(){
+						backfn();
+					}
 				};
 				pjax.request(data,"back");
 			} else {

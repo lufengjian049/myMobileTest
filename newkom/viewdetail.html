@@ -2,10 +2,10 @@
 <!--<div id="detaildiv">-->
 	<!-- style="margin-top: 44px;" -->
 	<input type="hidden" id="typehidden" />
-	<div class="searchdiv">
+	<div class="searchdiv" id="ajaxform">
 			<div  class="mui-input-group" id="ajaxform">
 				<div class="mui-input-row mui-search isearch">
-					<input type="text" class="mui-input-clear" placeholder="项目名称">
+					<input type="text" class="mui-input-clear" placeholder="项目名称" name="projectname">
 					<span class="mui-placeholder">
 					<span class="mui-icon mui-icon-search"></span>
 					</span>
@@ -16,25 +16,26 @@
 				</div>
 				<div id="othersearch">
 					<div class="mui-input-row">
-						<input type="text" placeholder="报价单编号" class="mui-input-clear" />
-						<span class="mui-icon mui-icon-clear"></span>
+						<input type="text" placeholder="报价单编号" class="mui-input-clear" name="pricenum" />
 					</div>
 					<div class="mui-input-row" style="position: relative;" data-dropdownlist="true">
-						<input type="hidden" />
-						<input type="text" placeholder="管辖地区" class="mui-input-clear" />
+						<input type="hidden" name="areaid" />
+						<input type="text" placeholder="管辖地区" class="mui-input-clear" name="areaaname"/>
 					</div>
 					<div class="mui-input-row btnsrow">
-						<span class="active">本月</span>
-						<span >本季</span>
-						<span >上季</span>
-						<span >其他</span>
+						<span type="month">本月</span>
+						<span type="thisquarter">本季</span>
+						<span type="lastquarter">上季</span>
+						<span type="other" class="active">其他</span>
+						<input type="hidden" name="startdate" />
+						<input type="hidden" name="enddate" />
 					</div>
 					<div class="mui-input-row">
-						<input type="date" placeholder="预计签约时间(起)"/>到
-						<input type="date" placeholder="预计签约时间(止)"/>
+						<input type="date" placeholder="预计签约时间(起)" name="startdate"/>到
+						<input type="date" placeholder="预计签约时间(止)" name="enddate"/>
 					</div>
 					<div class="mui-input-row">
-						<button class="mui-btn mui-icon mui-icon-search" style="width: 99%;"></button>
+						<button class="mui-btn mui-icon mui-icon-search" style="width: 99%;" onclick="searchlistdata()"></button>
 					</div>
 					<div id="clickdownwrapup">
 						<span class="mui-icon mui-icon-up"></span>
@@ -42,11 +43,11 @@
 				</div>
 			</div>
 	</div>
-	<div class="mui-content-padded sildecontain" id="maincontain">
+	<div class="mui-content-padded sildecontain" id="maincontain" draggable="true">
 		
 		<div id="ultalble">
 			<!--style="height:800px"-->
-			<div class="mui-loading" data-loading="true" loadurl="" formid="ajaxform" >
+			<div class="mui-loading" data-loading="true" loadurl="" formid="ajaxform"  data-page="1">
 			</div>
 		</div>
 	</div>

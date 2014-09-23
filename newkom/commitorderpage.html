@@ -7,17 +7,9 @@
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/komh5.css"/>
 		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
-		<!--<script src="../js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>-->
-		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/pullRefresh.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/pjax.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/kom2.js" type="text/javascript" charset="utf-8"></script>
-		
-		<!--<link rel="stylesheet" type="text/css" href="//kom3.eisoo.com/kommobiletest/css/mui.min.css"/>
-		<link rel="stylesheet" type="text/css" href="//kom3.eisoo.com/kommobiletest/css/komh5.css"/>
-		<script src="//kom3.eisoo.com/kommobiletest/js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="//kom3.eisoo.com/kommobiletest/js/mui.js" type="text/javascript" charset="utf-8"></script>
-		<script src="//kom3.eisoo.com/kommobiletest/js/pjax.js" type="text/javascript" charset="utf-8"></script>
-		<script src="//kom3.eisoo.com/kommobiletest/js/kom2.js" type="text/javascript" charset="utf-8"></script>-->
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
@@ -27,6 +19,7 @@
 			<a href="javascript:" id="extenddivmenu" class="mui-icon mui-icon-bars mui-pull-right" style="display:none"></a>
 		</header>
 		<div id="container" class="mui-content" data-initajax="true">
+			  <input type="hidden" id="huserid" />
 			  <div class="mui-content-padded" >
 				<div class="kom-entry" data-entry="o60" style="margin-top:10px">
 					已丢单
@@ -37,7 +30,7 @@
 					Commit待申请
 					<div class='otherinfo'>&nbsp;</div>
 				</div>
-				<div class="kom-entry" data-entry="c1">
+				<div class="kom-entry" data-entry="c1" param="numCommit">
 					<div class="kom-entry-trans"></div>
 					<span class="mui-badge mui-badge-danger posbadge">2</span>
 					Commit审核中
@@ -64,13 +57,13 @@
 					</div>
 				</div>
 				<div class="kom-entry-all">
-					<div class="kom-entry kom-entry-harf harf-left" data-entry="o1-0">
+					<div class="kom-entry kom-entry-harf harf-left" data-entry="o1-0" param="numOrder">
 						<div class="kom-entry-trans"></div>
 						<span class="mui-badge mui-badge-danger posbadge">2</span>
 						待审核
 						<div class='otherinfo'>&nbsp;</div>
 					</div>
-					<div class="kom-entry kom-entry-harf " data-entry="o1-1">
+					<div class="kom-entry kom-entry-harf " data-entry="o1-1" param="numOrderService"> 
 						<div class="kom-entry-trans"></div>
 						<span class="mui-badge mui-badge-danger posbadge">2</span>
 						待审核
@@ -102,12 +95,12 @@
 					</div>
 				</div>
 				<div class="kom-entry-all">
-					<div class="kom-entry kom-entry-harf harf-left" data-entry="o35">
+					<div class="kom-entry kom-entry-harf harf-left" data-entry="o35-0">
 						<div class="kom-entry-trans"></div>
 						发货中
 						<div class='otherinfo'>&nbsp;</div>
 					</div>
-					<div class="kom-entry kom-entry-harf " data-entry="o36">
+					<div class="kom-entry kom-entry-harf " data-entry="o36-1">
 						<div class="kom-entry-trans"></div>
 						实施中
 						<div class='otherinfo'>&nbsp;</div>
@@ -124,7 +117,7 @@
 						已实施<div>&nbsp;</div>
 					</div>
 				</div>
-				<div class="kom-entry" data-entry="o50">
+				<div class="kom-entry" data-entry="o50" data-settotal="true">
 					已完成
 					<div class='otherinfo'>&nbsp;</div>
 				</div>
