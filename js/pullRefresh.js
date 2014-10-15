@@ -31,24 +31,26 @@
         parentnode.append(cspanel);
         _this.on("keyup",function(){
           if(_this.val()){
-            cspanel.removeClass("mui-hidden");
+            cspanel.removeClass("mui-hidden").show();
           }else{
             cspanel.addClass("mui-hidden");
           }
         });
         cspanel.on("tap",function(){
-          _this.val("");
+          // _this.val("");
+          _this.parent().find("input").val("");
           $(this).addClass("mui-hidden");
         })
       }
     })
     return this;
   }
-  $.mypost=function(url,async,data,callback,errorback){
+  $.mypost=function(url,async,data,callback,type,errorback){
     // 同步为 false
+    type= type || "POST";
     errorback=errorback|| function(){alert("请求出错！")};
     $.ajax({
-      type:"POST",
+      type:type,
       url:url,
       async:async,
       dataType:"json",

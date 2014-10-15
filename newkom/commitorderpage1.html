@@ -2,28 +2,17 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="format-detection" content="telephone=no"/>
 		<title></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/mcss-1.1.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/komh5.css"/>
 		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/mjs-1.4-debug.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript">
-
-//		var myScroll;
-//		
-//		function loaded () {
-//			myScroll = new IScroll('#container', { mouseWheel: true});
-//		}
-		
-		// document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-		
-		</script>
+		<script src="../js/pullRefresh.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/pjax.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/kom2.js" type="text/javascript" charset="utf-8"></script>
 	</head>
-	<body style="overflow: hidden;" >
+	<body>
 		<header class="mui-bar mui-bar-nav">
-			<!--style="position: absolute;"-->
 			<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="1"></a>
 			<h1 class="mui-title" id="maintitle">Commit & Sell out管理</h1>
 			<!--<a class="mui-action-backup2 mui-icon mui-icon-left-nav mui-pull-right" data-backtop="1"></a>-->
@@ -34,9 +23,7 @@
 			<input type="hidden" id="itemparams" />
 			<input type="hidden" id="typehidden" />
 		</header>
-		<!--style="position: absolute;width: 100%;top: 44px;padding-top: 0;left: 0;bottom:0;overflow: hidden"-->
-		<div id="container" class="mui-content" data-initajax="true" >
-			<div >
+		<div id="container" class="mui-content" data-initajax="true">
 			  <div class="mui-content-padded" >
 				<div class="kom-entry" data-entry="c60" style="margin-top:10px">
 					已丢单
@@ -134,13 +121,12 @@
 						已实施<div>&nbsp;</div>
 					</div>
 				</div>
-				<div class="kom-entry" data-entry="o50" data-settotal="true" style="margin-bottom: 50px;">
+				<div class="kom-entry" data-entry="o50" data-settotal="true">
 					已完成
 					<div class='otherinfo'>&nbsp;</div>
 				</div>
-				<input type="text" name="" id="" value="" />
 			</div>
-		   </div>
+		   
 		</div>
 		<div class="mask wrapall">
 			<div id="popbtns">
@@ -154,11 +140,11 @@
 				<span showstatus="o1-0 o1-1" type="orderreview">
 					审核
 				</span>
-				<span showstatus="c0" sessionright="statusorder" confirminfo="sellout" class="tworow" type="applyorder" typep="0">
+				<span showstatus="c0" sessionright="statusorder" class="tworow" type="applyorder" typep="0">
 					Sell Out<br/>
 					产品订单
 				</span>
-				<span showstatus="c0" sessionright="statusservice" confirminfo="sellout" class="tworow" type="applyorder" typep="1">
+				<span showstatus="c0" sessionright="statusservice" class="tworow" type="applyorder" typep="1">
 					Sell Out<br/>
 					服务订单
 				</span>
@@ -176,19 +162,16 @@
 				<span showstatus="o30-1" type="applyimple"> 
 					申请实施
 				</span>
-				<span nosee="c60 c0 o50" type="loseorder">
+				<span nosee="c60 c0" type="loseorder">
 					已丢单
 				</span>
 			</div>
 		</div>
 		<div id="itemtemp" class="wrapall" style="display: none;">
-			<li class="mui-table-view-cell pjaxitem $glitem$" priceid='$priceid$' orderid="$orderid$" btnmanager="$btnmanager$" busimeb="$p_busimeb$">
+			<li class="mui-table-view-cell pjaxitem $glitem$" priceid='$priceid$' orderid="$orderid$" btnmanager="$btnmanager$">
 				<div class="mui-table">
 					<div class="mui-table-cell mui-col-xs-11">
-						<h5 class="listitemhead">
-							<span class="mui-ellipsis">$proname$</span>
-							<span>$amount$</span>
-						</h5>
+						<h5 class="mui-ellipsis">$proname$</h5>
 						<h6>$num$</h6>
 						<h6>$date$</h6>
 					</div>
@@ -198,23 +181,6 @@
 				</div>
 			</li>
 		</div>
-		<div class="i-loading">
-			<div class="iloadwrap">
-				<div class="mui-spinner">
-					<div class="mui-spinner-indicator mui-spinner-indicator1"></div>
-					<div class="mui-spinner-indicator mui-spinner-indicator2"></div>
-					<div class="mui-spinner-indicator mui-spinner-indicator3"></div>
-					<div class="mui-spinner-indicator mui-spinner-indicator4"></div>
-					<div class="mui-spinner-indicator mui-spinner-indicator5"></div>
-					<div class="mui-spinner-indicator mui-spinner-indicator6"></div>
-					<div class="mui-spinner-indicator mui-spinner-indicator7"></div>
-					<div class="mui-spinner-indicator mui-spinner-indicator8"></div>
-					<div class="mui-spinner-indicator mui-spinner-indicator9"></div>
-					<div class="mui-spinner-indicator mui-spinner-indicator10"></div>
-					<div class="mui-spinner-indicator mui-spinner-indicator11"></div>
-					<div class="mui-spinner-indicator mui-spinner-indicator12"></div>	
-				 </div>
-			</div>
-		</div>
+		<div class="i-loading"></div>
 	</body>
 </html>

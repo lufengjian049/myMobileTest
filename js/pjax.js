@@ -127,6 +127,7 @@
 			if (event.which > 1 || event.metaKey) {
 				return true;
 			}
+			$(".i-loading").show();
 			if(typeof options.sethref === 'function'){
 				if(options.sethref(this)){  //返回 true 表示 不执行下面逻辑
 					return true;
@@ -290,7 +291,11 @@
 				pjax.options.callback && pjax.options.callback.call(pjax.options.element,{
 					type : isCached? 'cache' : 'success'
 				});
+				if(flag3 && opobj.btnop){
+					reloadmaindata();
+				}
 			}, isCached);
+			$(".i-loading").hide();
 			return;
 		}
 		//accept Whole html
@@ -332,8 +337,12 @@
 			// 	}), document.title);
 			// 	pjax.active = true;
 			// }
-			if($(pjax.options.element).hasClass("kom-entry") && !$(pjax.options.element).parent().parent().hasClass("slidemenu"))
+			if($(pjax.options.element).hasClass("kom-entry") && !$(pjax.options.element).closest(".slidemenu").length)
 				history.pushState(pjax.state, document.title, pjax.options.url);
+			else{
+				if($(pjax.options.element).closest(".slidemenu").length)
+					history.replaceState(pjax.state, document.title, pjax.options.url);
+			}
 			if(!$(pjax.options.element).hasClass("kom-entry"))
 				history.pushState(pjax.state, document.title, pjax.options.url);
 		} else if (pjax.options.push === false) {
@@ -431,6 +440,7 @@
 			var curhref=Util.geturlname(location.href),maintitle=$(options.title).html();
 			Util.setCache(curhref,$(options.container).html(), maintitle,options.storage);
 		}
+		//pjax.options.url=pjax.options.url+"&ran="+Math.random();
 		pjax.xhr = $.ajax(pjax.options);
 		// }
 	};

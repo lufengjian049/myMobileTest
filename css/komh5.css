@@ -1,14 +1,20 @@
 /*reset:;*/
+body{
+background-color: #efeff4;
+}
 .mui-content{
-	padding-bottom: 30px;
+	padding-bottom: 8px;
 }
 .mui-content-padded{
 	/*padding-bottom: 20px;*/
 }
+.mui-h5, h5 {
+color: #000;
+}
 .mui-table-view-cell{
 	padding: 4px 8px;
 	padding-right: 0;
-	background: none;
+	background: none;border-bottom: 1px solid #e0e0de;
 }
 .mui-input-group .mui-input-row{
 	height: 34px;
@@ -18,6 +24,12 @@
 }
 .mui-input-group .mui-input-row{
 	background: none;
+}
+.mui-pull{
+bottom: 0;
+}
+.mui-pull-bottom-pocket{
+height: 30px;
 }
 .mui-bar-nav{
 	background-color: #b91c22;
@@ -32,8 +44,9 @@
 .mui-item-group{
 	border: 1px solid #ccc;
 	border-radius: 5px;
-	box-shadow: 0 1px #ccc;width: 96%;
+	width: 96%;
 margin: 5px auto;
+/*box-shadow: 0 1px #ccc;*/
 }
 .mui-item-group .mui-item:first-child{
 	border-radius: 5px 5px 0 0;
@@ -121,7 +134,7 @@ padding: 10px 5px;white-space: nowrap;padding-right: 10px;
 	z-index: 9;
   }
   .searchdiv{
-  	padding-bottom: 5px;background-color: #efeff4;position: fixed;z-index: 5;width: 100%;
+  	padding-bottom: 5px;background-color: #efeff4;position: fixed;z-index: 10;width: 100%;
   }
   .searchdiv div{
   	background-color: #FFF;padding: 2px 5px 0 5px;
@@ -188,23 +201,23 @@ padding: 10px 5px;white-space: nowrap;padding-right: 10px;
   }
 #popbtns{
 	background: red;
-	border-radius: 5px;
+	border-radius: 8px;
 	width: 80%;box-shadow: 0 0 20px rgba(0, 0, 0, .7);
 	margin: 200px auto;padding: 5px 0;height: 42px;line-height: 15px;
 }
 #popbtns span{
-	display: inline-block;width: 32%;text-align: center;color: #fff;font-weight: bold;
+	display: inline-block;width: 32%;text-align: center;color: #fff;font-weight: bold;vertical-align: middle;line-height:32px;
 }
-#popbtns span:not(:last-child){
+/*#popbtns span:not(:last-child){
 	border-right: 1px solid #fff;
 }
 #popbtns span:first-child{
 	padding-top: 13px
-}
-div.kom-entry-all div.kom-entry.kom-entry-harf.entry-dis{
+}*/
+div.mui-content-padded div.kom-entry.entry-dis{
 	background-color: #8f8f8f;
 }
-div.kom-entry-all div.kom-entry.kom-entry-harf.entry-dis .kom-entry-trans{
+div.mui-content-padded div.kom-entry.entry-dis .kom-entry-trans{
 	background-color: #8f8f8f;
 }
 .draghead{
@@ -233,5 +246,17 @@ background: #ccc;
 text-align: center;display: none;background: none;
 }
 .i-loading{
-	position: fixed;width: 100%;z-index: 99999;background: rgba(255,255,255,0.4);top: 0;height: 100%;
+	position: fixed;width: 100%;z-index: 9;background: rgba(255,255,255,0.4);top: 0;height: 100%;
+}
+ul.mui-table-view li.reviewitem{
+background: #fef5e7;
+}
+.btnspanbr{
+	border-right: 1px solid #fff;
+}
+.detailbtns{
+	margin: 5px auto;width: 96%;
+}
+.detailbtns button{
+	margin-bottom: 3px;background: #b91c22;color: #fff;height: 40px;display: none;line-height: 12px;
 }
