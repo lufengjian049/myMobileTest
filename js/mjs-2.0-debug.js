@@ -95,22 +95,21 @@ $(function(){
 		if(_this.hasClass("entry-dis")){
 			hideloadbox();
 		}else{
-				var curstatusn=_this.text(),remark=_this.find("div.otherinfo").html(),badge=_this.find(".mui-badge").html(),url="";
-				curstatusn=curstatusn.replace(remark,"").replace(badge,"");
-				if(_this.hasClass("kom-entry-harf")){
-					if(_this.hasClass("harf-left")) curstatusn="产品"+curstatusn;
-					else curstatusn="服务"+curstatusn;
-				}
-				if(_this.closest(".slidemenu").length){
-					$(".view").eq(2).find(".mui-title").html(curstatusn);
-					$("#typehidden").val(_this.data("entry"));
-					loaddatalist($("div.mui-loading"));
-				}else{
-					url="viewdetail2.html?ran="+Math.random()+"&title="+encodeURIComponent(curstatusn)+"&type="+_this.data("entry");
-					_this.closest(".view").loadNextPage(url,function(url){
-						viewdataload(url);
-					});
-				}
+			var curstatusn=_this.text(),remark=_this.find("div.otherinfo").html(),badge=_this.find(".mui-badge").html(),url="";
+			curstatusn=curstatusn.replace(remark,"").replace(badge,"");
+			if(_this.hasClass("kom-entry-harf")){
+				if(_this.hasClass("harf-left")) curstatusn="产品"+curstatusn;
+				else curstatusn="服务"+curstatusn;
+			}
+			if(_this.closest(".slidemenu").length){
+				$(".view").eq(2).find(".mui-title").html(curstatusn);
+				$("#typehidden").val(_this.data("entry"));
+				loaddatalist($("div.mui-loading"));
+			}else{
+				url="viewdetail2.html?ran="+Math.random()+"&title="+encodeURIComponent(curstatusn)+"&type="+_this.data("entry");
+				_this.closest(".view").loadNextPage(url,function(url){
+					viewdataload(url);
+				});
 			}
 		}
 	})
