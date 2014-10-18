@@ -10,6 +10,7 @@ var hrefobj={
 	loseorderurl:"/order/missorder" //已丢单 链接
 },
 opobj={
+	viewscrollobj:null,
 	curli:null,
 	curbtnobj:null,
 	btnop:false,
@@ -618,14 +619,24 @@ function pulldownupex(total){
 	// loadurl=loadobj.attr("loadurl"),table=$('.mui-table-view'),
 	pulldownAction=function(){
 		searchlistdata();
+		if(total > 10){
+			loadobj.removeData("lastdata");
+			$("#pullup").find("span").eq(1).html("上拉加载更多...");
+			$("#pullup").find("span").eq(0).show();
+		}
 	},pullupAction=null;
 	if(parseInt(total) >10 ){
 		pullupAction=function(){
-			var page=loadobj.data("page");
-            searchlistdata(page,"nextpage");
+           	if(loadobj.data("lastdata")){
+           		$("#pullup").find("span").eq(1).html("已是最后一条");
+           		$("#pullup").find("span").eq(0).hide();
+           	}else{
+           		var page=loadobj.data("page");
+            	searchlistdata(page,"nextpage");
+           	}
 		}
 	}
-	$.scrollPull(loadobj.closest(".mui-content-padded"),pulldownAction,pullupAction);
+	opobj.viewscrollobj=$.scrollPull(loadobj.closest(".mui-content-padded"),pulldownAction,pullupAction);
 }
 function setitemlist(rows){
 	var itemtemp=$("#itemtemp").html(),returnstr="",itemhtml="";
@@ -704,6 +715,7 @@ function searchlistdata(page,type){
 			if(type =="nextpage"){
 				ulhtml="";
 				ulhtml+=setitemlist(result.data.list);
+				if(!result.data.list) loadobj.data("lastdata","true");
 				loadObj.next().append(ulhtml);
 			}else{
 				ulhtml+=setitemlist(result.data.list);
@@ -718,6 +730,7 @@ function searchlistdata(page,type){
 			loadObj.after("<div class='emptydatadiv' style='text-align: center;height:"+window.screen.height+"px'>没有任何数据</div>");
 			loadObj.hide();
 		}
+		opobj.viewscrollobj.refresh();
 		$("#clickdownwrapup").trigger("tap");
 		hideloadbox();
 	})
@@ -1032,6 +1045,7 @@ function pickdatecallback(backobj){
 			$pullup.find('#pullup-label').html(pullupLoadingMore);
 		}
 		var options = {
+			probeType:3,
 			startY : -pulldownOffset
 		};	
 		$.extend(true,options,opts);
@@ -1041,6 +1055,7 @@ function pickdatecallback(backobj){
 			if ($pulldown.length>0 && $pulldown.hasClass('loading')) {
 				$pulldown.removeClass();
 				$pulldown.find('#pulldown-label').html(pulldownRefresh);
+				this.scrollTo(0, -pulldownOffset);
 			} else if ($pullup.length>0){
 				$pullup.find('#pullup-icon').show();
 				if($pullup.hasClass('loading')){
@@ -1050,7 +1065,13 @@ function pickdatecallback(backobj){
 				}
 			}
 		});
-		
+		scrollObj.on('scrollStart',function(){
+			if($pulldown.length>0){
+				$pulldown.css("visibility","visible");
+			}
+			if($pullup.length>0 && pullupAction)
+				$pullup.css("visibility","visible");
+		});
 		//滚动的时候触发的事件
 		scrollObj.on('scroll',function(){
 			if ($pulldown.length>0 && this.y > 5 && !$pulldown.hasClass('flip')) {
@@ -1058,12 +1079,14 @@ function pickdatecallback(backobj){
 				$pulldown.find('#pulldown-label').html(releaseToRefresh);
 				this.startY = 0;
 				
-			} else if ($pulldown.length>0 && this.y < 5 && $pulldown.hasClass('flip')) {
-				$pulldown.removeClass();
-				$pulldown.find('#pulldown-label').html(pulldownRefresh);
-				this.startY = -pulldownOffset;
+			} 
+			//else if ($pulldown.length>0 && this.y < 5 && $pulldown.hasClass('flip')) {
+			//	$pulldown.removeClass();
+			//	$pulldown.find('#pulldown-label').html(pulldownRefresh);
+			//	this.startY = -pulldownOffset;
 			//this.y < this.minScrollY代表是上拉,以防下拉的时候未拉到尽头时进入上拉的逻辑中
-			} else if ($pullup.length>0 && this.y < this.startY && this.y < (this.maxScrollY - 5) && !$pullup.hasClass('flip')) {
+			//} 
+			else if ($pullup.length>0 && this.y < this.startY && this.y < (this.maxScrollY - 5) && !$pullup.hasClass('flip')) {
 				$pullup.removeClass().addClass('flip');
 				$pullup.find('#pullup-label').html(releaseToLoading);
 				this.maxScrollY = this.maxScrollY;
