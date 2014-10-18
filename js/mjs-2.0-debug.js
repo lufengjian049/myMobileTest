@@ -334,7 +334,7 @@ function loaddatalist(loadObj){
 			loadObj.after(ulhtml);
 			loadObj.hide();
 			//---------------------------iscroll-----------------------------
-			new IScroll(loadObj.closest(".mui-content-padded"), { mouseWheel: true});
+			pulldownupex(total);
 			hideloadbox();
 			//window.location.href="objc://loadmask/"+JSON.stringify({show:0});
 		}else{//没有数据
@@ -614,37 +614,18 @@ function orderdetailload(url){
 }
 // viewdetail 页面添加 下拉 上啦事件处理
 function pulldownupex(total){
-	var loadobj=$(".mui-loading");
+	var loadobj=$(".mui-loading"),
 	// loadurl=loadobj.attr("loadurl"),table=$('.mui-table-view'),
-	pullobj={
-		down: {
-				height: 50,
-			    contentdown: '下拉可以刷新',
-			    contentover: '释放立即刷新',
-			    contentrefresh: '正在刷新...',
-                callback: function(callback) {
-                	//下拉 刷新
-                	searchlistdata();
-                	callback();
-                }
-            }
-	};
+	pulldownAction=function(){
+		searchlistdata();
+	},pullupAction=null;
 	if(parseInt(total) >10 ){
-		pullobj.up={
-				height: 50,
-		        contentdown: '上拉显示更多',
-		        contentover: '释放立即刷新',
-		        contentrefresh: '正在刷新...',
-		        duration: 300,
-                callback:function(callback){
-                	//上拉 加载下一页
-                	var page=loadobj.data("page");
-                	searchlistdata(page,"nextpage");
-                	callback();
-                }
-            }
+		pullupAction=function(){
+			var page=loadobj.data("page");
+            searchlistdata(page,"nextpage");
+		}
 	}
-	//$("#maincontain").pullRefresh(pullobj);
+	$.scrollPull(loadObj.closest(".mui-content-padded"),pulldownAction,pullupAction);
 }
 function setitemlist(rows){
 	var itemtemp=$("#itemtemp").html(),returnstr="",itemhtml="";
@@ -1021,6 +1002,96 @@ function pickdatecallback(backobj){
 			}});
 		}
 		return this;
+	}
+	$.scrollPull=function(wrapper,pulldownAction,pullupAction,opts,pullText){
+		var $wrapper ;
+		if(typeof wrapper === 'string'){
+			$wrapper = $(wrapper);
+		}else if(typeof wrapper === 'object'){
+			$wrapper = wrapper;
+		}
+		
+		var pulldownRefresh   = '下拉刷新...',
+			pullupLoadingMore = '上拉加载更多...',
+			releaseToRefresh  = '释放刷新...',
+			releaseToLoading  = '释放加载...',
+			loading 		  = '正在加载...';
+		
+		var $pulldown = $wrapper.find('#pulldown'),
+			$pullup   = $wrapper.find('#pullup'),
+			pullupOffset   = 0,
+			pulldownOffset = 0;
+		
+		if($pulldown.length>0){
+			pulldownOffset = $pulldown.outerHeight();
+			$pulldown.find('#pulldown-label').html(pulldownRefresh);
+		}
+		
+		if($pullup.length>0){
+			pullupOffset = $pullup.outerHeight();
+			$pullup.find('#pullup-label').html(pullupLoadingMore);
+		}
+		var options = {
+			startY : -pulldownOffset
+		};	
+		$.extend(true,options,opts);
+		var scrollObj=new IScroll($wrapper,options);
+		//滚动刷新触发的事件
+		scrollObj.on('refresh',function(){
+			if ($pulldown.length>0 && $pulldown.hasClass('loading')) {
+				$pulldown.removeClass();
+				$pulldown.find('#pulldown-label').html(pulldownRefresh);
+			} else if ($pullup.length>0){
+				$pullup.find('#pullup-icon').show();
+				if($pullup.hasClass('loading')){
+					$pullup.find('#pullup-icon').show();
+					$pullup.removeClass();
+					$pullup.find('#pullup-label').html(pullupLoadingMore);
+				}
+			}
+		});
+		
+		//滚动的时候触发的事件
+		scrollObj.on('scroll',function(){
+			if ($pulldown.length>0 && this.y > 5 && !$pulldown.hasClass('flip')) {
+				$pulldown.removeClass().addClass('flip');
+				$pulldown.find('#pulldown-label').html(releaseToRefresh);
+				this.startY = 0;
+				
+			} else if ($pulldown.length>0 && this.y < 5 && $pulldown.hasClass('flip')) {
+				$pulldown.removeClass();
+				$pulldown.find('#pulldown-label').html(pulldownRefresh);
+				this.startY = -pulldownOffset;
+			//this.y < this.minScrollY代表是上拉,以防下拉的时候未拉到尽头时进入上拉的逻辑中
+			} else if ($pullup.length>0 && this.y < this.startY && this.y < (this.maxScrollY - 5) && !$pullup.hasClass('flip')) {
+				$pullup.removeClass().addClass('flip');
+				$pullup.find('#pullup-label').html(releaseToLoading);
+				this.maxScrollY = this.maxScrollY;
+				
+			} else if ($pullup.length>0 && (this.y > (this.maxScrollY + 5)) && $pullup.hasClass('flip')) {
+				$pullup.removeClass();
+				$pullup.find('#pullup-label').html(pullupLoadingMore);
+				this.maxScrollY = pullupOffset;
+			}
+		});
+		
+		//滚动结束之后触发的事件
+		scrollObj.on('scrollEnd',function(){
+			if ($pulldown.length>0 && $pulldown.hasClass('flip')) {
+				$pulldown.removeClass().addClass('loading');
+				$pulldown.find('#pulldown-label').html(loading);
+				if(typeof pulldownAction === 'function'){
+					pulldownAction.call(scrollObj);	
+				}
+			} else if ($pullup.length>0 && $pullup.hasClass('flip')) {
+				$pullup.removeClass().addClass('loading');
+				$pullup.find('#pullup-label').html(loading);
+				if(typeof pullupAction === 'function' && $pullup.parent().length>0){
+					pullupAction.call(scrollObj);	
+				}				
+			}
+		});
+		return 	scrollObj;	
 	} 
 })(Zepto, window)
 /**
