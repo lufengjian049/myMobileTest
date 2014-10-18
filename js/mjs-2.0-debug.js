@@ -90,23 +90,28 @@ $(function(){
 	});
 
 	$(document).on("tap",".kom-entry",function(){
-		starttime=new Date();
-		showloadbox(true);
 		var _this=$(this),url="";
+		showloadbox(true);
 		if(_this.hasClass("entry-dis")){
 			hideloadbox();
 		}else{
-			var curstatusn=_this.text(),remark=_this.find("div.otherinfo").html(),badge=_this.find(".mui-badge").html(),url="";
-			curstatusn=curstatusn.replace(remark,"").replace(badge,"");
-			if(_this.hasClass("kom-entry-harf")){
-				if(_this.hasClass("harf-left")) curstatusn="产品"+curstatusn;
-				else curstatusn="服务"+curstatusn;
+				var curstatusn=_this.text(),remark=_this.find("div.otherinfo").html(),badge=_this.find(".mui-badge").html(),url="";
+				curstatusn=curstatusn.replace(remark,"").replace(badge,"");
+				if(_this.hasClass("kom-entry-harf")){
+					if(_this.hasClass("harf-left")) curstatusn="产品"+curstatusn;
+					else curstatusn="服务"+curstatusn;
+				}
+				if(_this.closest(".slidemenu").length){
+					$(".view").eq(2).find(".mui-title").html(curstatusn);
+					$("#typehidden").val(_this.data("entry"));
+					loaddatalist($("div.mui-loading"));
+				}else{
+					url="viewdetail2.html?ran="+Math.random()+"&title="+encodeURIComponent(curstatusn)+"&type="+_this.data("entry");
+					_this.closest(".view").loadNextPage(url,function(url){
+						viewdataload(url);
+					});
+				}
 			}
-			url="viewdetail2.html?ran="+Math.random()+"&title="+encodeURIComponent(curstatusn)+"&type="+_this.data("entry");
-			_this.closest(".view").loadNextPage(url,function(url){
-				viewdataload(url);
-				//iscroll
-			});
 		}
 	})
 	$(document).on("tap",".pjaxitem",function(){
@@ -299,7 +304,7 @@ function initDdlEvent(ulobj){
 //加载列表数据 ---状态详细页面
 function loaddatalist(loadObj){
 	var loadurl=hrefobj.domain+hrefobj[loadObj.attr("loadurl")],formid=loadObj.attr("formid"),itemTemp=$("#itemtemp").html(),
-	page=parseInt(loadObj.data("page")),token=$("#huserid").val(),typesh=$("#typehidden").val(),
+	page=1,token=$("#huserid").val(),typesh=$("#typehidden").val(),
 	secstatus=typesh.substring(1),status=secstatus,type="0",total="",
 	minheight=(window.screen.height-110+8)+"px";
 	if(secstatus.indexOf('-')>0){
@@ -316,6 +321,7 @@ function loaddatalist(loadObj){
 	$.mypost(loadurl,true,{},function(result){
 		total=result.data.total;
 		$("#projectnumsum").html(total);
+		loadObj.next().remove();
 		if(total>0){
 			var ulhtml="<ul class='mui-table-view' style='min-height:"+minheight+"'>";
 			ulhtml+=setitemlist(result.data.list);
@@ -697,7 +703,7 @@ function fixedWatch(el) {
     if(opobj.res ) { clearInterval(opobj.res ); opobj.res  = null; }
   }
 }
-// viewdetail 搜索方法
+// viewdetail 搜索、刷新方法
 function searchlistdata(page,type){
 	var loadobj=$(".mui-loading"),loadurl=hrefobj.domain+hrefobj[loadobj.attr("loadurl")],params={},pagei=page || "1",
 	minheight=(window.screen.height-110)+"px";
