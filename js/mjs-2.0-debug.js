@@ -1023,12 +1023,12 @@ function pickdatecallback(backobj){
 			pulldownOffset = 0;
 		
 		if($pulldown.length>0){
-			pulldownOffset = $pulldown.outerHeight();
+			pulldownOffset = $pulldown.offset().height;
 			$pulldown.find('#pulldown-label').html(pulldownRefresh);
 		}
 		
 		if($pullup.length>0){
-			pullupOffset = $pullup.outerHeight();
+			pullupOffset = $pullup.offset().height;
 			$pullup.find('#pullup-label').html(pullupLoadingMore);
 		}
 		var options = {
