@@ -196,11 +196,21 @@ $(function(){
 });
 //共用方法 && 自定义
 $.back=function(){
-	var curview=$(".view").filter(".current"),prevoview=curview.prev();
+	var curview=$(".view").filter(".current"),prevoview=curview.prev(),cindex=$(".view").index(curview);
 	if(!prevoview.hasClass("slidemenu")){
+		if(cindex==2){
+			var flag3={flag:true};
+			window.location="objc://setmainflag/"+JSON.stringify(flag3);
+		}
+		if(opobj.btnop2) {
+			deleteliop();
+			opobj.btnop2=false;
+		}
 		curview.addClass("backout");
 		prevoview.addClass("backin");
 		setTimeout(function(){
+			if(cindex==2 && opobj.btnop)
+				reloadmaindata();
 			curview.removeClass().addClass("view").addClass("next");
 			prevoview.removeClass().addClass("view").addClass("current");
 		},800);
@@ -690,14 +700,6 @@ function parseUrlStr(obj){
 		str=str.slice(0,-1);
 	}
 	return str;
-}
-function fixedWatch(el) {
-  if(document.activeElement.nodeName == 'INPUT'){
-    el.css('position', 'static');
-  } else {
-    el.css('position', 'fixed');
-    if(opobj.res ) { clearInterval(opobj.res ); opobj.res  = null; }
-  }
 }
 // viewdetail 搜索、刷新方法
 function searchlistdata(page,type){
