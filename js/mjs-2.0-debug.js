@@ -625,7 +625,7 @@ function pulldownupex(total){
             searchlistdata(page,"nextpage");
 		}
 	}
-	$.scrollPull(loadObj.closest(".mui-content-padded"),pulldownAction,pullupAction);
+	$.scrollPull(loadobj.closest(".mui-content-padded"),pulldownAction,pullupAction);
 }
 function setitemlist(rows){
 	var itemtemp=$("#itemtemp").html(),returnstr="",itemhtml="";
