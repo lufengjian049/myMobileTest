@@ -704,8 +704,9 @@ function searchlistdata(page,type){
 	//params=$.extend($("#ajaxform").data("params"),getformparams());
 	loadurl+="?"+opobj.formparams+"&page="+pagei+"&"+getformparams();
 	showloadbox(true);
-	$.mypost(loadurl,false,{},function(result){
+	$.mypost(loadurl,true,{},function(result){
 		var loadObj=$(".mui-loading");
+		$("#projectnumsum").html(result.data.total);
 		if(result.data.total>0){
 			$(".emptydatadiv").remove();
 			var ulhtml="<ul class='mui-table-view' style='min-height:"+minheight+"'>";
