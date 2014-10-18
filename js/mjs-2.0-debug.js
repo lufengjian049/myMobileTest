@@ -73,7 +73,10 @@ $(function(){
 	$(window).on("swipeLeft",function(e){
 		var extendbtn=$("#extenddivmenu"),cview=extendbtn.closest(".view");
 		if($(".view").index(cview) == 2 && cview.hasClass("current")){
-			(extendbtn.css("display")!="none") && extendbtn.trigger("tap");
+			if(!extendbtn.data("swipe")) {
+				extendbtn.trigger("tap");
+				extendbtn.data("swipe",true);
+			}
 		}
 		e.stopImmediatePropagation();
 		return false;
@@ -82,6 +85,7 @@ $(function(){
 		var extendbtn=$("#extenddivmenu");
 		if(extendbtn.data("swipe")){
 			(extendbtn.css("display")!="none") && extendbtn.trigger("tap");
+			extendbtn.removeData("swipe");
 		}else{
 			$.back();
 		}
@@ -102,6 +106,7 @@ $(function(){
 				else curstatusn="服务"+curstatusn;
 			}
 			if(_this.closest(".slidemenu").length){
+				$("#extenddivmenu").trigger("tap");
 				$(".view").eq(2).find(".mui-title").html(curstatusn);
 				$("#typehidden").val(_this.data("entry"));
 				loaddatalist($("div.mui-loading"));
