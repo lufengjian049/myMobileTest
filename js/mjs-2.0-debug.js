@@ -214,6 +214,8 @@ $.back=function(){
 			curview.removeClass().addClass("view").addClass("next");
 			prevoview.removeClass().addClass("view").addClass("current");
 		},800);
+	}else{
+		window.location="objc://goback";
 	}
 }
 //kom-entry 块数据的加载与显示
