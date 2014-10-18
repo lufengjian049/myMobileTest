@@ -23,7 +23,7 @@ opobj={
 	res:null
 },starttime=null,endtime=null;
 $(function(){
-	
+	Util.removeAllCache(); //------------开发测试用 正式 删除该方法
 	//--------------------页面初始化----------------
 	$("div.mui-content").initEntryDataZ({
 		callback:function(data,nopjax){
@@ -138,6 +138,48 @@ $(function(){
 				//iscroll
 			});
   		}
+	})
+	//搜索下拉 按钮事件
+	$(document).on("tap","#clickdownwrap",function(){
+		var _this=$(this);
+  		$("#detailmask").show();
+  		$("#othersearch").show();
+  		_this.prev().find("button").hide().eq(1).next().css("right","10px").siblings("input").css({"width":"100%","text-align":"left"}).next().hide();
+  		_this.hide();
+  		$("#clickdownwrapup").show();
+  		$(".searchdiv input").each(function(){
+  			if(!$(this).val()){
+  				$(this).focus();
+  				return false;
+  			}
+  		});
+  		var ddlobj;
+  		$("div.mui-input-row").each(function(){
+			var _this=$(this);
+			if(_this.data("dropdownlist")){
+				ddlobj=_this;
+				_this.find("input[type='text']").on("input",function(){
+					if(_this.next().is("ul")){
+						_this.next().show();
+						vaguesearch($(this));
+					}
+				})
+				return false;//break
+			}
+		});
+  		createddllist(ddlobj);
+	})
+	//搜索结束 关闭 事件
+	$(document).on("tap","#clickdownwrapup",function(){
+		$("#othersearch").hide();
+  		$(this).hide();
+  		var projectinputobj=$("#clickdownwrap").show().prev().find("input");
+  		if(projectinputobj.val()){
+  			projectinputobj.focus().css({"width":"70%","text-align":"left"});
+  			projectinputobj.siblings("button").show().eq(1).next().css({"right":"94px"});
+  		}else
+			projectinputobj.css({"width":"100%","text-align":"center"}).next().show();
+		$("#detailmask").hide();
 	})
 	//--------------------------------注册的事件 over
 	// history.pushState({url:location.href},"Commit & Sell out管理",location.href);
@@ -273,6 +315,7 @@ function loaddatalist(loadObj){
 	opobj.formparams=getparams;
 	$.mypost(loadurl,true,{},function(result){
 		total=result.data.total;
+		$("#projectnumsum").html(total);
 		if(total>0){
 			var ulhtml="<ul class='mui-table-view' style='min-height:"+minheight+"'>";
 			ulhtml+=setitemlist(result.data.list);
@@ -359,35 +402,6 @@ function backfn(total){
 	if(!$("#ajaxform").length) return;
 	//data-dropdownlist
 	opobj.lasttotal=total;
-	$("#clickdownwrap").on("tap",function(){
-  		var _this=$(this);
-  		showloadbox();
-  		$("#othersearch").show();
-  		_this.prev().find("button").hide().eq(1).next().css("right","10px").siblings("input").css({"width":"100%","text-align":"left"}).next().hide();
-  		_this.hide();
-  		$("#clickdownwrapup").show();
-  		$(".searchdiv input").each(function(){
-  			if(!$(this).val()){
-  				$(this).focus();
-  				return false;
-  			}
-  		});
-  		var ddlobj;
-  		$("div.mui-input-row").each(function(){
-			var _this=$(this);
-			if(_this.data("dropdownlist")){
-				ddlobj=_this;
-				_this.find("input[type='text']").on("input",function(){
-					if(_this.next().is("ul")){
-						_this.next().show();
-						vaguesearch($(this));
-					}
-				})
-				return false;//break
-			}
-		});
-  		createddllist(ddlobj);
-  	})
   	$(".isearch .mui-icon-search").on("tap",function(){
   		var _this=$(this),
   		 inputobj=_this.siblings("input");
@@ -482,17 +496,6 @@ function backfn(total){
   			$(this).hide();
   		});
   		$("#itemparams").val(JSON.stringify(itemparams));
-  	})
-  	$("#clickdownwrapup").on("tap",function(){
-  		$("#othersearch").hide();
-  		$(this).hide();
-  		var projectinputobj=$("#clickdownwrap").show().prev().find("input");
-  		if(projectinputobj.val()){
-  			projectinputobj.focus().css({"width":"70%","text-align":"left"});
-  			projectinputobj.siblings("button").show().eq(1).next().css({"right":"94px"});
-  		}else
-			projectinputobj.css({"width":"100%","text-align":"center"}).next().show();
-		hideloadbox();
   	})
   	$(".isearch>span").on("tap",function(){
   		var _this=$(this);
