@@ -197,7 +197,7 @@ $(function(){
 //共用方法 && 自定义
 $.back=function(){
 	var curview=$(".view").filter(".current"),prevoview=curview.prev(),cindex=$(".view").index(curview);
-	if(!prevoview.hasClass("slidemenu")){
+	if(prevoview.length && !prevoview.hasClass("slidemenu")){
 		if(cindex==2){
 			var flag3={flag:true};
 			window.location="objc://setmainflag/"+JSON.stringify(flag3);
