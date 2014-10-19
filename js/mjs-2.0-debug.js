@@ -1051,14 +1051,13 @@ function pickdatecallback(backobj){
 				$pulldown.removeClass().addClass('flip');
 				$pulldown.find('#pulldown-label').html(releaseToRefresh);
 				this.startY = 0;
-				
 			} 
-			//else if ($pulldown.length>0 && this.y < 5 && $pulldown.hasClass('flip')) {
-			//	$pulldown.removeClass();
-			//	$pulldown.find('#pulldown-label').html(pulldownRefresh);
-			//	this.startY = -pulldownOffset;
+			else if ($pulldown.length>0 && this.y < 5 && $pulldown.hasClass('flip')) {
+				$pulldown.removeClass();
+				$pulldown.find('#pulldown-label').html(pulldownRefresh);
+				// this.startY = -pulldownOffset;
 			//this.y < this.minScrollY代表是上拉,以防下拉的时候未拉到尽头时进入上拉的逻辑中
-			//} 
+			} 
 			else if ($pullup.length>0 && this.y < this.startY && this.y < (this.maxScrollY - 5) && !$pullup.hasClass('flip')) {
 				$pullup.removeClass().addClass('flip');
 				$pullup.find('#pullup-label').html(releaseToLoading);
