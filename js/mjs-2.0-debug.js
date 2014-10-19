@@ -256,7 +256,7 @@ $.fn.loadNextPage=function(url,callback){
 	});
 }
 //操作按钮的处理
-function btntapevent(obj){
+function btntapevent(obj,url){
 	var curstatus=$("#typehidden").val(),curitemparams=$("#itemparams").val(),
 	sendparams={
 		applystatus:2,
@@ -265,7 +265,7 @@ function btntapevent(obj){
 	};
 	opobj.curbtnobj=$(obj);
 	if(!curitemparams){
-		var idp=Util.getUrlParams(location.href,"priceid"),ido=Util.getUrlParams(location.href,"orderid"),
+		var idp=Util.getUrlParams(url,"priceid"),ido=Util.getUrlParams(url,"orderid"),
 		curid=ido || idp;
 		curitemparams={
 			id:curid,
@@ -622,7 +622,7 @@ function orderdetailload(url){
 	}
 	new IScroll($("#viewdetailgroup").closest(".scrollviewcontent"), { mouseWheel: true});
 	$("#viewdetailbtngroup").on("tap","button",function(){
-		btntapevent(this);
+		btntapevent(this,url);
 	})
 }
 // viewdetail 页面添加 下拉 上啦事件处理
