@@ -1050,9 +1050,9 @@ function pickdatecallback(backobj){
 		});
 		//滚动的时候触发的事件
 		scrollObj.on('scroll',function(){
-			if ($pulldown.length>0 && this.y < 5 && !$pulldown.hasClass('flip')) {
-				this.scrollTo(0, -pulldownOffset,500);
-			}
+			// if ($pulldown.length>0 && this.y < 5 && !$pulldown.hasClass('flip')) {
+			// 	this.scrollTo(0, -pulldownOffset,500);
+			// }
 			if ($pulldown.length>0 && this.y > 5 && !$pulldown.hasClass('flip')) {
 				$pulldown.removeClass().addClass('flip');
 				$pulldown.find('#pulldown-label').html(releaseToRefresh);
