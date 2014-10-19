@@ -713,7 +713,7 @@ function searchlistdata(page,type){
 	minheight=(window.screen.height-110)+"px";
 	//params=$.extend($("#ajaxform").data("params"),getformparams());
 	loadurl+="?"+opobj.formparams+"&page="+pagei+"&"+getformparams();
-	showloadbox(true);
+	showloadbox();
 	$.mypost(loadurl,true,{},function(result){
 		var loadObj=$(".mui-loading");
 		$("#projectnumsum").html(result.data.total);
