@@ -1050,12 +1050,12 @@ function pickdatecallback(backobj){
 			if ($pulldown.length>0 && this.y > 5 && !$pulldown.hasClass('flip')) {
 				$pulldown.removeClass().addClass('flip');
 				$pulldown.find('#pulldown-label').html(releaseToRefresh);
-				this.startY = 0;
+				// this.startY = 0;
 			} 
 			else if ($pulldown.length>0 && this.y < 5 && $pulldown.hasClass('flip') && this.initiated) {
 				$pulldown.removeClass();
 				$pulldown.find('#pulldown-label').html(pulldownRefresh);
-				this.scrollTo(0, -pulldownOffset);
+				this.scrollTo(0, -pulldownOffset,300);
 				// this.startY = -pulldownOffset;
 			//this.y < this.minScrollY代表是上拉,以防下拉的时候未拉到尽头时进入上拉的逻辑中
 			} 
@@ -1064,7 +1064,7 @@ function pickdatecallback(backobj){
 				$pullup.find('#pullup-label').html(releaseToLoading);
 				this.maxScrollY = this.maxScrollY;
 				
-			} else if ($pullup.length>0 && (this.y > (this.maxScrollY + 5)) && $pullup.hasClass('flip')) {
+			} else if ($pullup.length>0 && (this.y > (this.maxScrollY + 5)) && $pullup.hasClass('flip') && this.initiated) {
 				$pullup.removeClass();
 				$pullup.find('#pullup-label').html(pullupLoadingMore);
 				this.maxScrollY = pullupOffset;
