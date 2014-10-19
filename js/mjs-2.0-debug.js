@@ -350,12 +350,13 @@ function loaddatalist(loadObj){
 			loadObj.hide();
 			//---------------------------iscroll-----------------------------
 			pulldownupex(total);
-			hideloadbox();
 			//window.location.href="objc://loadmask/"+JSON.stringify({show:0});
 		}else{//没有数据
+			$("#pulldown").hide();
 			loadObj.after("<div class='emptydatadiv' style='text-align: center;height:"+window.screen.height+"px'>没有任何数据</div>");
 			loadObj.hide();
 		}
+		hideloadbox();
 	})
 	return total;
 }
