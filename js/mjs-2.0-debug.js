@@ -338,6 +338,8 @@ function loaddatalist(loadObj){
 	$.mypost(loadurl,true,{},function(result){
 		total=result.data.total;
 		$("#projectnumsum").html(total);
+		var totalprice=(parseFloat(result.data.totalPrice)/10000).toFixed(2)
+		$("#orderpricesum").html(totalprice);
 		loadObj.next().remove();
 		if(total>0){
 			var ulhtml="<ul class='mui-table-view' style='min-height:"+minheight+"'>";
