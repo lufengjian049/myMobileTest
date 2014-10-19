@@ -1062,12 +1062,12 @@ function pickdatecallback(backobj){
 			else if ($pullup.length>0 && this.y < this.startY && this.y < (this.maxScrollY - 5) && !$pullup.hasClass('flip')) {
 				$pullup.removeClass().addClass('flip');
 				$pullup.find('#pullup-label').html(releaseToLoading);
-				this.maxScrollY = this.maxScrollY;
+				// this.maxScrollY = this.maxScrollY;
 				
 			} else if ($pullup.length>0 && (this.y > (this.maxScrollY + 5)) && $pullup.hasClass('flip') && this.initiated) {
 				$pullup.removeClass();
 				$pullup.find('#pullup-label').html(pullupLoadingMore);
-				this.maxScrollY = pullupOffset;
+				// this.maxScrollY = pullupOffset;
 			}
 		});
 		
