@@ -1055,6 +1055,7 @@ function pickdatecallback(backobj){
 			else if ($pulldown.length>0 && this.y < 5 && $pulldown.hasClass('flip')) {
 				$pulldown.removeClass();
 				$pulldown.find('#pulldown-label').html(pulldownRefresh);
+				this.scrollTo(0, -pulldownOffset);
 				// this.startY = -pulldownOffset;
 			//this.y < this.minScrollY代表是上拉,以防下拉的时候未拉到尽头时进入上拉的逻辑中
 			} 
