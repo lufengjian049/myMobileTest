@@ -359,7 +359,7 @@ function loaddatalist(loadObj){
 }
 //初始化  块数据
 function initentrydata(ajaxdata,nopjax){
-	$("div.kom-entry").each(function(){
+	$("div.kom-entry",$(".view").eq(1)).each(function(){
 		var _this=$(this),entrystr=_this.data("entry"),param=_this.attr("param"),
 		commitshow=$("#hcommitpre").val(),ordershow=$("#horderpre").val();
 		if(entrystr){
@@ -407,10 +407,12 @@ function initentrydata(ajaxdata,nopjax){
 		}
 	})
 	hideloadbox();
-	$("#slidemenu").append($(".mui-content-padded").clone());
-	$(".scrollviewcontent").each(function(){
-		new IScroll($(this), { mouseWheel: true});
-	})
+	$("#slidemenu").html("").append($(".view").eq(1).find(".mui-content-padded").clone());
+	if(!nopjax){
+		$(".scrollviewcontent").each(function(){
+			new IScroll($(this), { mouseWheel: true});
+		})
+	}
 }
 //加载 viewdetail
 function viewdataload(url){
@@ -844,6 +846,7 @@ function vaguesearch(obj){
 function reloadmaindata(){
 	var token=$("#huserid").val(),
 	url=hrefobj["domain"]+hrefobj.comanageurl+"?token="+token;
+	showloadbox(true);
 	$.mypost(url,false,{},function(data){
 		initentrydata(data['data'],true);
 		opobj.btnop=false;
@@ -1047,6 +1050,9 @@ function pickdatecallback(backobj){
 		});
 		//滚动的时候触发的事件
 		scrollObj.on('scroll',function(){
+			if ($pulldown.length>0 && this.y < 5 && !$pulldown.hasClass('flip')) {
+				this.scrollTo(0, -pulldownOffset,500);
+			}
 			if ($pulldown.length>0 && this.y > 5 && !$pulldown.hasClass('flip')) {
 				$pulldown.removeClass().addClass('flip');
 				$pulldown.find('#pulldown-label').html(releaseToRefresh);
@@ -1055,7 +1061,7 @@ function pickdatecallback(backobj){
 			else if ($pulldown.length>0 && this.y < 5 && $pulldown.hasClass('flip') && this.initiated) {
 				$pulldown.removeClass();
 				$pulldown.find('#pulldown-label').html(pulldownRefresh);
-				this.scrollTo(0, -pulldownOffset,300);
+				this.scrollTo(0, -pulldownOffset,500);
 				// this.startY = -pulldownOffset;
 			//this.y < this.minScrollY代表是上拉,以防下拉的时候未拉到尽头时进入上拉的逻辑中
 			} 
