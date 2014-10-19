@@ -1052,7 +1052,7 @@ function pickdatecallback(backobj){
 				$pulldown.find('#pulldown-label').html(releaseToRefresh);
 				this.startY = 0;
 			} 
-			else if ($pulldown.length>0 && this.y < 5 && $pulldown.hasClass('flip')) {
+			else if ($pulldown.length>0 && this.y < 5 && $pulldown.hasClass('flip') && this.initiated) {
 				$pulldown.removeClass();
 				$pulldown.find('#pulldown-label').html(pulldownRefresh);
 				this.scrollTo(0, -pulldownOffset);
