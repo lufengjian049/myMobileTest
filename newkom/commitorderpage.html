@@ -8,131 +8,137 @@
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/mcss-1.1.css"/>
 		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/mjs-1.3-debug.js" type="text/javascript" charset="utf-8"></script>
-		<!--<script type="text/javascript">
-			$(function(){
-				alert("load");
-			})
-			alert("page");
-		</script>-->
+		<!--<script src="../js/iscroll.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mjs-2.0-debug.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="../js/mjs-2.0.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
-	<body>
-		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="1"></a>
-			<h1 class="mui-title" id="maintitle">Commit & Sell out管理</h1>
-			<!--<a class="mui-action-backup2 mui-icon mui-icon-left-nav mui-pull-right" data-backtop="1"></a>-->
-			<a href="javascript:" id="extenddivmenu" class="mui-icon mui-icon-bars mui-pull-right" style="display:none"></a>
-			<input type="hidden" id="huserid" />
-			<input type="hidden" id="hcommitpre" />
-			<input type="hidden" id="horderpre" />
-			<input type="hidden" id="itemparams" />
-			<input type="hidden" id="typehidden" />
-		</header>
-		<div id="container" class="mui-content" data-initajax="true">
-			  <div class="mui-content-padded" >
-				<div class="kom-entry" data-entry="c60" style="margin-top:10px">
-					已丢单
-					<div class='otherinfo'>&nbsp;</div>
-				</div>
-				<div class="kom-entry" data-entry="c0">
-					<div class="kom-entry-trans"></div>
-					Commit待申请
-					<div class='otherinfo'>&nbsp;</div>
-				</div>
-				<div class="kom-entry" data-entry="c1" param="numCommit">
-					<div class="kom-entry-trans"></div>
-					<span class="mui-badge mui-badge-danger posbadge"></span>
-					Commit审核中
-					<div class='otherinfo'>&nbsp;</div>
-				</div>
-				<div class="kom-entry-all" style="margin-bottom: -10px;">
-					<div class="kom-entry kom-entry-harf harf-left entry-dis">
-						产品
-					</div>
-					<div class="kom-entry kom-entry-harf entry-dis">
-						服务
-					</div>
-				</div>
-				<div class="kom-entry-all">
-					<div class="kom-entry kom-entry-harf harf-left" data-entry="o0-0">
-						<div class="kom-entry-trans"></div>
-						已审待Sell Out
-						<div class='otherinfo'>&nbsp;</div>
-					</div>
-					<div class="kom-entry kom-entry-harf" data-entry="o0-1">
-						<div class="kom-entry-trans"></div>
-						已审待Sell Out
-						<div class='otherinfo'>&nbsp;</div>
-					</div>
-				</div>
-				<div class="kom-entry-all">
-					<div class="kom-entry kom-entry-harf harf-left" data-entry="o1-0" param="numOrder">
-						<div class="kom-entry-trans"></div>
-						<span class="mui-badge mui-badge-danger posbadge"></span>
-						审核中
-						<div class='otherinfo'>&nbsp;</div>
-					</div>
-					<div class="kom-entry kom-entry-harf " data-entry="o1-1" param="numOrderService"> 
-						<div class="kom-entry-trans"></div>
-						<span class="mui-badge mui-badge-danger posbadge"></span>
-						审核中
-						<div class='otherinfo'>&nbsp;</div>
-					</div>
-				</div>
-				<div class="kom-entry-all">
-					<div class="kom-entry kom-entry-harf harf-left" data-entry="o10-0">
-						<div class="kom-entry-trans"></div>
-						已审未签
-						<div class='otherinfo'>&nbsp;</div>
-					</div>
-					<div class="kom-entry kom-entry-harf " data-entry="o10-1">
-						<div class="kom-entry-trans"></div>
-						已审未签
-						<div class='otherinfo'>&nbsp;</div>
-					</div>
-				</div>
-				<div class="kom-entry-all">
-					<div class="kom-entry kom-entry-harf harf-left" data-entry="o30-0">
-						<div class="kom-entry-trans"></div>
-						已Sell Out
-						<div class='otherinfo'>&nbsp;</div>
-					</div>
-					<div class="kom-entry kom-entry-harf " data-entry="o30-1">
-						<div class="kom-entry-trans"></div>
-						已Sell Out
-						<div class='otherinfo'>&nbsp;</div>
-					</div>
-				</div>
-				<div class="kom-entry-all">
-					<div class="kom-entry kom-entry-harf harf-left" data-entry="o35-0">
-						<div class="kom-entry-trans"></div>
-						发货中
-						<div class='otherinfo'>&nbsp;</div>
-					</div>
-					<div class="kom-entry kom-entry-harf " data-entry="o36-1">
-						<div class="kom-entry-trans"></div>
-						实施中
-						<div class='otherinfo'>&nbsp;</div>
-					</div>
-				</div>
-				<div class="kom-entry-all">
-					<div class="kom-entry kom-entry-harf harf-left" data-entry="o40-0">
-						<div class="kom-entry-trans"></div>
-						已提货
-						<div class='otherinfo'>&nbsp;</div>
-					</div>
-					<div class="kom-entry kom-entry-harf entry-dis">
-						<div class="kom-entry-trans"></div>
-						已实施<div>&nbsp;</div>
-					</div>
-				</div>
-				<div class="kom-entry" data-entry="o50" data-settotal="true">
-					已完成
-					<div class='otherinfo'>&nbsp;</div>
-				</div>
+	<body style="overflow: hidden;">
+		<input type="hidden" id="huserid" />
+		<input type="hidden" id="hcommitpre" />
+		<input type="hidden" id="horderpre" />
+		<input type="hidden" id="itemparams" />
+		<input type="hidden" id="typehidden" />
+		<div class="slidemenu view">
+			<div class="scrollviewcontent" style="top: 0;">
+				<div id="slidemenu"></div>
 			</div>
-		   
 		</div>
+		<div class="view current">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="1"></a>
+				<h1 class="mui-title">订单管理</h1>
+			</header>
+			<div class="mui-content scrollviewcontent" data-initajax="true">
+				<div>
+				  <div class="mui-content-padded" >
+					<div class="kom-entry" data-entry="c60" style="margin-top:10px">
+						已丢单
+						<div class='otherinfo'>&nbsp;</div>
+					</div>
+					<div class="kom-entry" data-entry="c0">
+						<div class="kom-entry-trans"></div>
+						Commit待申请
+						<div class='otherinfo'>&nbsp;</div>
+					</div>
+					<div class="kom-entry" data-entry="c1" param="numCommit">
+						<div class="kom-entry-trans"></div>
+						<span class="mui-badge mui-badge-danger posbadge"></span>
+						Commit审核中
+						<div class='otherinfo'>&nbsp;</div>
+					</div>
+					<div class="kom-entry-all" style="margin-bottom: -10px;">
+						<div class="kom-entry kom-entry-harf harf-left entry-dis">
+							产品
+						</div>
+						<div class="kom-entry kom-entry-harf entry-dis">
+							服务
+						</div>
+					</div>
+					<div class="kom-entry-all">
+						<div class="kom-entry kom-entry-harf harf-left" data-entry="o0-0">
+							<div class="kom-entry-trans"></div>
+							待Sell Out
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+						<div class="kom-entry kom-entry-harf" data-entry="o0-1">
+							<div class="kom-entry-trans"></div>
+							待Sell Out
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+					</div>
+					<div class="kom-entry-all">
+						<div class="kom-entry kom-entry-harf harf-left" data-entry="o1-0" param="numOrder">
+							<div class="kom-entry-trans"></div>
+							<span class="mui-badge mui-badge-danger posbadge"></span>
+							待审核
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+						<div class="kom-entry kom-entry-harf " data-entry="o1-1" param="numOrderService"> 
+							<div class="kom-entry-trans"></div>
+							<span class="mui-badge mui-badge-danger posbadge"></span>
+							待审核
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+					</div>
+					<div class="kom-entry-all">
+						<div class="kom-entry kom-entry-harf harf-left" data-entry="o10-0">
+							<div class="kom-entry-trans"></div>
+							已审未签
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+						<div class="kom-entry kom-entry-harf " data-entry="o10-1">
+							<div class="kom-entry-trans"></div>
+							已审未签
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+					</div>
+					<div class="kom-entry-all">
+						<div class="kom-entry kom-entry-harf harf-left" data-entry="o30-0">
+							<div class="kom-entry-trans"></div>
+							已Sell Out
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+						<div class="kom-entry kom-entry-harf " data-entry="o30-1">
+							<div class="kom-entry-trans"></div>
+							已Sell Out
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+					</div>
+					<div class="kom-entry-all">
+						<div class="kom-entry kom-entry-harf harf-left" data-entry="o35-0">
+							<div class="kom-entry-trans"></div>
+							发货中
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+						<div class="kom-entry kom-entry-harf " data-entry="o36-1">
+							<div class="kom-entry-trans"></div>
+							实施中
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+					</div>
+					<div class="kom-entry-all">
+						<div class="kom-entry kom-entry-harf harf-left" data-entry="o40-0">
+							<div class="kom-entry-trans"></div>
+							已提货
+							<div class='otherinfo'>&nbsp;</div>
+						</div>
+						<div class="kom-entry kom-entry-harf entry-dis">
+							<div class="kom-entry-trans"></div>
+							已实施<div>&nbsp;</div>
+						</div>
+					</div>
+					<div class="kom-entry" data-entry="o50" data-settotal="true" style="margin-bottom: 50px;">
+						已完成
+						<div class='otherinfo'>&nbsp;</div>
+					</div>
+					<br>
+				</div>
+			   </div>
+			</div>
+		</div>
+		<div class='view next'></div>
+		<div class='view next'></div>
 		<div class="mask wrapall">
 			<div id="popbtns">
 				<span showstatus="c0" class="tworow" type="applycommit">

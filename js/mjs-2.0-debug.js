@@ -24,7 +24,7 @@ opobj={
 	res:null
 },starttime=null,endtime=null;
 $(function(){
-	Util.removeAllCache(); //------------开发测试用 正式 删除该方法
+	//Util.removeAllCache(); //------------开发测试用 正式 删除该方法
 	//--------------------页面初始化----------------
 	$("div.mui-content").initEntryDataZ({
 		callback:function(data,nopjax){
@@ -112,7 +112,7 @@ $(function(){
 				$("#typehidden").val(_this.data("entry"));
 				loaddatalist($("div.mui-loading"));
 			}else{
-				url="viewdetail2.html?ran="+Math.random()+"&title="+encodeURIComponent(curstatusn)+"&type="+_this.data("entry");
+				url="viewdetail.html?ran="+Math.random()+"&title="+encodeURIComponent(curstatusn)+"&type="+_this.data("entry");
 				_this.closest(".view").loadNextPage(url,function(url){
 					viewdataload(url);
 				});
@@ -142,7 +142,7 @@ $(function(){
   			window.location.href="objc://getkinddetail/"+JSON.stringify(sendparams);
   		}
   		else{
-  			url="orderinfo2.html?ran="+Math.random()+"&title="+title+"&myreview="+_this.hasClass("reviewitem")+"&orderid="+_this.attr("orderid")+"&p_manage="+_this.attr("btnmanager")+"&status="+$("#typehidden").val()+"&priceid="+_this.attr("priceid")+"&p_busimeb="+_this.attr("busimeb");
+  			url="orderinfo.html?ran="+Math.random()+"&title="+title+"&myreview="+_this.hasClass("reviewitem")+"&orderid="+_this.attr("orderid")+"&p_manage="+_this.attr("btnmanager")+"&status="+$("#typehidden").val()+"&priceid="+_this.attr("priceid")+"&p_busimeb="+_this.attr("busimeb");
   			_this.closest(".view").loadNextPage(url,function(url){
 				orderdetailload(url);
 				//iscroll
@@ -236,7 +236,7 @@ $.fn.initEntryDataZ=function(options){
 $.fn.loadNextPage=function(url,callback){
 	var viewobj=$(this);
 	if(!viewobj.next().hasClass("next")){
-		viewobj.after("<div class='view next'></div>");
+		viewobj.after("<div class='view next'></div>");//没有动画效果？？？
 	}
 	var newviewovj=viewobj.next();
 	newviewovj.myLoad(url,{},function(curobj){
@@ -253,7 +253,7 @@ $.fn.loadNextPage=function(url,callback){
 			newviewovj.removeClass().addClass("view").addClass("current");
 		},800);
 		callback(url);
-	});
+	},true);
 }
 //操作按钮的处理
 function btntapevent(obj,url){
@@ -677,10 +677,10 @@ function setitemlist(rows){
 			// (parseFloat(data.pasum)/10000).toFixed(2)
 			itemhtml=itemtemp.replace("$glitem$",glclass).replace("$amount$",amount).replace("$p_busimeb$",currow.p_busimeb).replace("$btnmanager$",currow.p_manage).replace("$orderid$",currow.orderid).replace("$priceid$",currow.priceid).replace("$proname$",currow.projectname).replace("$num$",currow.pricenum).replace("$date$",$data);
 			returnstr+=itemhtml;
-			$(".mui-pull-bottom-pocket").find("span").eq(0).html("上拉显示更多");
+			// $(".mui-pull-bottom-pocket").find("span").eq(0).html("上拉显示更多");
 		}
 	}else{
-		$(".mui-pull-bottom-pocket").find("span").eq(0).html("已是最后一条数据");
+		// $(".mui-pull-bottom-pocket").find("span").eq(0).html("已是最后一条数据");
 	}
 	return returnstr;
 }
@@ -718,6 +718,8 @@ function searchlistdata(page,type){
 	$.mypost(loadurl,true,{},function(result){
 		var loadObj=$(".mui-loading");
 		$("#projectnumsum").html(result.data.total);
+		var totalprice=(parseFloat(result.data.totalPrice)/10000).toFixed(2)
+		$("#orderpricesum").html(totalprice);
 		if(result.data.total>0){
 			$(".emptydatadiv").remove();
 			var ulhtml="<ul class='mui-table-view' style='min-height:"+minheight+"'>";
@@ -947,11 +949,11 @@ function pickdatecallback(backobj){
             opobj.curdateobj=$(this),thisvalue=_thisb.val(),prevvalue=_thisb.prev().val(),
             nextvalue=_thisb.next().val();
             if(ddtype=="start") {
-              sendparams.min=thisvalue.indexOf("时间")>=0 ? "" : Date.parse(thisvalue);
+              sendparams.min="";
               sendparams.max=nextvalue.indexOf("时间")>=0 ? "" : Date.parse(nextvalue);
             }else{
               sendparams.min=prevvalue.indexOf("时间")>=0 ? "" : Date.parse(prevvalue);
-              sendparams.max=thisvalue.indexOf("时间")>=0 ? "" : Date.parse(thisvalue);
+              sendparams.max="";
             }
             window.location.href="objc://pickdate/"+JSON.stringify(sendparams);
           }
@@ -1099,3 +1101,4 @@ function pickdatecallback(backobj){
 		return 	scrollObj;	
 	} 
 })(Zepto, window)
+
