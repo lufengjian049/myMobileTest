@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>test-H-scroll</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/mcss-1.1.css"/>
+		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+		 <script src="../js/iscroll-mobile.js" type="text/javascript" charset="utf-8"></script>
+		 <script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
+		 <script src="../js/mjs-2.0-debug.js" type="text/javascript" charset="utf-8"></script>
+		 <style type="text/css">
+		 	.mui-bar-scroll{
+		 		bottom: 0;width: 100%;height: 50px;padding: 5px 10px;
+		 	}
+		 	.mui-bar-scroll .mui-scroll-item{
+		 		display: inline-block;color: #000;border: 1px solid #ccc;height: 30px;width: 30px;margin-right: 10px;
+		 	}
+		 	.scrollnav{
+		 		height: 100%;overflow: hidden;white-space: nowrap;-webkit-transform: translate(50%,0) translateZ(0px);
+				margin-left: -40px;display: flex;vertical-align: middle;align-items: center;
+		 	}
+		 	a.mui-scroll-item.mui-active{
+		 		width: 45px;height: 40px;
+		 	}
+		 </style>
+		 <script type="text/javascript">
+		 	var myscroll=null;
+		 	function srcollLoad(){
+		 		myscroll= new IScroll($("#bar-scroll-wrapper"),{startX : '50%',eventPassthrough:true,scrollX: true, scrollY: false, preventDefault: false,probeType:3});
+		 		myscroll.on("scroll",function(e){
+			 		console.log(this.x);
+			 	})
+		 	}
+		 	
+		 </script>
+	</head>
+	<body onload="srcollLoad()">
+		<div class="view current">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="1"></a>
+				<h1 class="mui-title">test H-Scroll</h1>
+			</header>
+			<div class="mui-content">
+				
+			</div>
+			<div id="bar-scroll-wrapper" class="mui-bar mui-bar-scroll">
+			<nav class="scrollnav">
+			  <a class="mui-scroll-item mui-active" href="#">
+			    1
+			  </a>
+			  <a class="mui-scroll-item" href="#">
+			   	2
+			  </a>
+			  <a class="mui-scroll-item" href="#">
+			    3
+			  </a>
+			  <a class="mui-scroll-item" href="#">
+			    4
+			  </a>
+			  <a class="mui-scroll-item" href="#">
+			    5
+			  </a>
+			  <a class="mui-scroll-item" href="#">
+			    6
+			  </a>
+			</nav>
+			</div>
+		</div>
+	</body>
+</html>

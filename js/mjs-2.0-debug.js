@@ -1,7 +1,7 @@
 var hrefobj={
 	//domain:"http://192.168.4.202:8280/komrestservice",
 	// domain:"http://192.168.150.2:8280/komrestservice",
-	// domian:"http://42.121.116.149:8280/komrestservice",
+	// domain:"http://42.121.116.149:8280/komrestservice",
 	domain:"http://42.120.17.217:8280/komrestservice",
 	comanageurl:"/quote/comanage",//commit-order管理 统计 页面(首页)
 	listurl:"/quote/coquery", //commit-order 列表地址
@@ -24,7 +24,7 @@ opobj={
 	res:null
 },starttime=null,endtime=null;
 $(function(){
-	//Util.removeAllCache(); //------------开发测试用 正式 删除该方法
+	Util.removeAllCache(); //------------开发测试用 正式 删除该方法
 	//--------------------页面初始化----------------
 	$("div.mui-content").initEntryDataZ({
 		callback:function(data,nopjax){
@@ -51,9 +51,12 @@ $(function(){
 			$(this).removeData("swipe");
 			setTimeout(function(){
 				slidemenu.removeClass("hide").hide();
+				$("#detailmask").hide();
 			},400);
 		}else{
 			slidemenu.removeClass("hide").addClass("show").show();
+			$("#detailmask").show();
+			(new IScroll($(".slidemenu>.scrollviewcontent")));
 			$(this).data("swipe",true);
 		}
 	})
@@ -388,7 +391,7 @@ function initentrydata(ajaxdata,nopjax){
 				};
 			}
 			if(data){
-				if(parseInt(data.num) <=0) return;
+				//if(parseInt(data.num) <=0) return;
 				var otherobj=_this.find(".otherinfo"),amout=(parseFloat(data.pasum)/10000).toFixed(2);
 				if(otherobj.length){
 					otherobj.html(data.num+"|"+amout);
@@ -411,9 +414,11 @@ function initentrydata(ajaxdata,nopjax){
 	})
 	hideloadbox();
 	$("#slidemenu").html("").append($(".view").eq(1).find(".mui-content-padded").clone());
+
 	if(!nopjax){
 		$(".scrollviewcontent").each(function(){
-			new IScroll($(this), { mouseWheel: true});
+			if(!$(this).parent().hasClass("slidemenu"))
+				new IScroll($(this));
 		})
 	}
 }
@@ -625,7 +630,7 @@ function orderdetailload(url){
 			}
 		})
 	}
-	new IScroll($("#viewdetailgroup").closest(".scrollviewcontent"), { mouseWheel: true});
+	new IScroll($("#viewdetailgroup").closest(".scrollviewcontent"));
 	$("#viewdetailbtngroup").on("tap","button",function(){
 		btntapevent(this,url);
 	})
