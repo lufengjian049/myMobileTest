@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			.wraper{
+				margin: 0 auto;
+			}
+			.pieContainer{
+				height: 100px;width: 100px;position: relative;
+			}
+			.pieBackground{
+				background-color: grey;position: absolute;width: 100%;height: 100%;border-radius: 50px;
+				box-shadow: -1px 1px 3px #000;
+			}
+			.pie{
+				position: absolute;width: 100px;height: 100px;border-radius: 50px;clip: rect(0,50px,100px,0);
+				transition: transform 800s;
+			}
+			.hold{
+				position: absolute;width: 100px;height: 100px;border-radius: 50px;clip: rect(0,100px,100px,50px);
+			}
+			#pieSlice1 .pie{
+				background-color: #1b458b;transform: rotate(50deg);
+			}
+			#pieSlice1 .pie:hover{
+				background-color: red;transform: translate(-5px,-5px);
+			}
+			/*#pieSlice2{
+				transform: rotate(50deg);
+			}*/
+			#pieSlice2 .pie{
+				transform: rotate(100deg);background-color: red;
+			}
+			/*#pieSlice3{
+				transform: rotate(150deg);
+			}*/
+			#pieSlice3 .pie{
+				transform: rotate(170deg);background-color: yellow;
+			}
+			#pieSliceBlue .pie{
+				background-color: #1b458b;transform: rotate(180deg);
+			}
+			#pieSliceBlue2{
+				transform: rotate(180deg);
+			}
+			#pieSliceBlue2 .pie{
+				background-color: #1b458b;transform: rotate(40deg);
+			}
+			#pieSliceRed{
+				transform: rotate(220deg);
+			}
+			#pieSliceRed .pie{
+				background-color: #cc0000;;transform: rotate(140deg);
+			}
+			#test{
+				margin-left: 100px;
+				width: 100px;height: 100px;background-color: #00CDAE;position: relative;
+				transition: transform 400ms ease-in;
+				/*transform: rotate(50deg);*/
+			}
+			#test:hover{
+				transform: rotate(80deg) scale(2);
+			}
+			#test:before{
+				width: 100px;content: "";height: 100px;background-color: #00CDAE;position: absolute;
+				transform: rotate(50deg);
+			}
+			#pie_chart {
+				position: relative;float: left;width: 300px;height: 300px;margin: 0;padding: 0;
+				-webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.5, transparent), to(rgba(255, 255, 255, 0.2) ));
+				margin-top: 50px;
+			}
+			#pie_chart ul {
+				list-style-type: none;padding: 0;margin: 0;width: 100%;height: 100%;
+			}
+			#pie_chart li {
+				position: absolute;top: 0px;padding: 0;margin: 0;width: 100%;height: 100%;
+			}
+			#pie_chart p {
+				width: 100%;height: 100%;padding: 0;margin: 0;
+			}
+			#pie_chart li p { -webkit-transition: -webkit-transform 2s ease-in;}
+			#pie_chart span { display: block; width: 50%; height: 100%;}
+			/*#pie_chart ul :nth-child(odd) { clip: rect(0px, 100%, 100%, 50%);}
+			#pie_chart ul :nth-child(even) { clip: rect(0px, 50%, 100%, 0px);}*/
+			.pie_left{
+				border-top-left-radius: 150px;border-bottom-left-radius: 150px;
+			}
+			.pie_right{
+				margin-left: 50%;border-top-right-radius: 150px;border-bottom-right-radius: 150px;
+			}
+			#c1_l span {
+				background: #BC3603;
+				}
+			#c1_r span {
+				background: #BC3603;
+				}
+			#c2_l span {
+				background: #D97904;
+				}
+			#c2_r span {
+				background: #D97904;
+				}
+			#c3_l span {
+				background: #F2B705;
+				}
+			#c3_r span {
+				background: #F2B705;
+				}
+			#c4_l span {
+				background: #86AD00;
+				}
+			#c4_r span {
+				background: #86AD00;
+				}
+			#c5_l span{ 
+				background: #0092B9;
+				}
+			#c5_r span{
+				background: #0092B9;
+				}
+			#c6_l span{ 
+				background: red;
+				}
+			#c6_r span{
+				background: red;
+				}
+			#pie_chart ul :nth-child(1) p{  -webkit-transform: rotate(180deg);}
+			#pie_chart ul :nth-child(2) p{ -webkit-transform: rotate(180deg); }
+			#pie_chart ul :nth-child(3) p{ -webkit-transform: rotate(180deg); }
+			#pie_chart ul :nth-child(4) p{ -webkit-transform: rotate(170deg); }
+			#pie_chart ul :nth-child(5) p{  -webkit-transform: rotate(180deg); }
+			#pie_chart ul :nth-child(6) p{ -webkit-transform: rotate(152deg); }
+			#pie_chart ul :nth-child(7) p{ -webkit-transform: rotate(180deg); }
+			#pie_chart ul :nth-child(8) p{  -webkit-transform: rotate(126deg); }
+			#pie_chart ul :nth-child(9) p{ -webkit-transform: rotate(180deg); }
+			#pie_chart ul :nth-child(10) p{ -webkit-transform: rotate(36deg);}
+			#pie_chart ul :nth-child(11) p{ -webkit-transform: rotate(180deg); }
+			#pie_chart ul :nth-child(12) p{ -webkit-transform: rotate(-36deg);}
+			.mask{
+				width: 100%;height: 100%;position: absolute;left: 0;top: 0;display: flex;
+			}
+			.mask div{
+				width: 60%;height: 60%;margin: auto auto;background: #fff;border-radius: 50%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wraper">
+			<div class="pieContainer">
+				<div class="pieBackground"></div>
+				<div id="pieSlice1" class="hold"><div class="pie"></div></div>
+				<div id="pieSlice2" class="hold"><div class="pie"></div></div>
+				<div id="pieSlice3" class="hold"><div class="pie"></div></div>
+				<div class="mask"><div></div></div>
+			</div>
+			<br />
+			<div class="pieContainer">
+			     <div class="pieBackground"></div>
+			     <div id="pieSliceBlue" class="hold"><div class="pie"></div></div>
+			     <div id="pieSliceBlue2" class="hold"><div class="pie"></div></div>
+			     <div id="pieSliceRed" class="hold"><div class="pie"></div></div>
+			</div>
+			<br />
+			<div id="test">
+				
+			</div>
+			<div id="pie_chart">
+				<ul>
+					<li id="c1_r"><p><span class="pie_left"></span></p></li> 	
+					<li id="c1_l"><p><span class="pie_right"></span></p></li>
+					<li id="c2_r"><p><span class="pie_left"></span></p></li> 	
+					<li id="c2_l"><p><span class="pie_right"></span></p></li>
+					<li id="c3_r"><p><span class="pie_left"></span></p></li> 	
+					<li id="c3_l"><p><span class="pie_right"></span></p></li>
+					<li id="c4_r"><p><span class="pie_left"></span></p></li> 	
+					<li id="c4_l"><p><span class="pie_right"></span></p></li>
+					<li id="c5_r"><p><span class="pie_left"></span></p></li> 	
+					<li id="c5_l"><p><span class="pie_right"></span></p></li>
+					<li id="c6_r"><p><span class="pie_left"></span></p></li> 	
+					<li id="c6_l"><p><span class="pie_right"></span></p></li>
+				</ul>
+				<div class="mask"><div></div></div>
+			</div>
+			<div class="pieContainer">
+				<div class="pieBackground"></div>
+				<div id="pieSlice1" class="hold">
+					<div class="pie">
+						<div class="pie">
+							<div class="pie"></div>
+						</div>
+					</div>
+				</div>
+				<div class="mask"><div></div></div>
+			</div>
+		</div>
+	</body>
+</html>
