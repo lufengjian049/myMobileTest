@@ -1,0 +1,26 @@
+div img,div video{
+				display: block;width: 100%;margin: 0 auto;max-width: 870px;
+			}
+			header{
+				text-align: center;
+			}
+			.nav{
+				position: fixed;
+				top: 150px;right: 0 ;
+			}
+			.nav ul{
+				list-style: none;
+			}
+			.nav ul li{
+				border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;border-left: 1px solid #ccc;border-top-left-radius: 5px;border-bottom-left-radius: 5px;margin: 10px 0;padding: 5px;cursor: pointer;
+			}
+			a{
+				text-decoration: none;color: #000;
+			}
+			.nav ul li.active{
+				background: #ccc;transform: scale(1.2);-moz-transform:scale(1.2);-webkit-transform:scale(1.2);-o-transform:scale(1.2);  
+
+			}
+			.nav ul li.active a{
+				color: #fff;
+			}
