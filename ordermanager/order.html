@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/kom.css"/>
+		<style type="text/css">
+			p{
+				margin: 0;padding: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="width:1025px;height:210px;border:dashed 1px #ccc;position:relative">
+			<div class="orderflow_left_main">
+				<div class="substatus">
+					<div class="whole active" type="">
+						订单管理
+					</div>
+					<div class="pro" type="0">
+						产品
+					</div>
+					<div class="ser" type="1">
+						服务
+					</div>
+				</div>
+				<div class="mainstatus">
+					<div class="mainflowstatus active" style="top: 5px;padding-right: 10px;" id="90">
+						<span class="commitpng bgimg"></span>
+						<p>Commit</p>
+					</div>
+					<div class="mainflowstatus" style="top: 57px;" id="91">
+						<span class="selloutpng bgimg"></span>
+						<p>待Sell Out</p>
+					</div>
+					<div class="mainflowstatus" style="top: 112px;" id="92">
+						<span class="selloutedpng bgimg"></span>
+						<p>已Sell Out</p>
+					</div>
+					<div class="mainflowstatus" style="top: 162px;left: -160px;padding-right: 10px;" id="o60">
+						<span class="lostorderpng bgimg"></span>
+						<p>已丢单</p>
+					</div>
+					<div class="mainflowstatus" style="top: 162px;left: 640px;">
+						<span class="selloutExportpng bgimg"></span>
+						<p>导出Sell Out订单</p>
+					</div>
+				</div>
+			</div>
+			<div class="orderflow_right_main">
+				<div class="orderflowitem" style="top: 10px;left: 55px;" id="c1" parentid="90">
+					<p>审核中</p>
+					<div class="itemflowtips" style="left:-83px;">
+						发送Commit
+					</div>
+				</div>
+				<div class="orderflowitem" style="top: 10px;left: 180px;" id="c2" parentid="90">
+					<p>已审未SellOut</p>
+					<div class="itemflowtips" style="left:-54px;">
+						审核
+					</div>
+				</div>
+				<div class="orderflowitem" style="top: 65px;left: 60px;" id="o1" parentid="91">
+					<p>审核中</p>
+					<div class="itemflowtips" style="left:-88px;">
+						发送SellOut
+					</div>
+				</div>
+				<div class="orderflowitem" style="top: 65px;left: 180px;" id="o10" parentid="91">
+					<p>已审未签</p>
+					<div class="itemflowtips" style="left:-50px;">
+						审核
+					</div>
+				</div>
+				<div class="orderflowitem" style="top: 65px;left: 315px;" id="o21" parentid="91">
+					<p>签约中</p>
+					<div class="itemflowtips" style="left:-50px;">
+						签约
+					</div>
+				</div>
+				<div class="orderflowitem" style="top: 65px;left: 455px;" id="o25" parentid="91">
+					<p>已审未付款</p>
+					<div class="itemflowtips" style="left:-70px;">
+						完成签约
+					</div>
+				</div>
+				<div class="orderflowitem" style="top: 65px;left: 602px;" id="o30" parentid="91">
+					<p>已签未发货</p>
+					<div class="itemflowtips" style="left:-45px;">
+						付款
+					</div>
+				</div>
+				<div class="orderflowitem" style="top: 120px;left: 45px;" id="o45" parentid="92">
+					<p>收款中</p>
+					<div class="itemflowtips" style="left:-70px;">
+						发起发货
+					</div>
+				</div>
+				<div class="orderflowitem" style="top: 120px;left: 185px;" id="o50" parentid="92">
+					<p>完成收款</p>
+					<div class="itemflowtips" style="left:-70px;">
+						完成收款
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

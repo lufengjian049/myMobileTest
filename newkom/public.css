@@ -5,8 +5,7 @@ div img,div video{
 				text-align: center;
 			}
 			.nav{
-				position: fixed;
-				top: 150px;right: 0 ;
+				position: fixed;top: 150px;right: 0 ;
 			}
 			.nav ul{
 				list-style: none;

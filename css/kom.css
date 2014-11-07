@@ -1,0 +1,84 @@
+.orderflow_left_main{
+	float: left;    position: relative;    width: 31%;
+}
+.substatus{
+	position: absolute;width: 150px;left: 5px;top: 30px;
+}
+.substatus div{
+	cursor: pointer;width: 68px;height: 49px;text-indent: -9999px;float: left;
+}
+.substatus div.whole{
+	height: 97px;
+	background: url("//kom3.eisoo.com/buttons/substauswhole.png");
+}
+.substatus div.whole.active{
+	background: url("//kom3.eisoo.com/buttons/substauswhole_active.png");
+}
+.substatus div.pro{
+	height: 48px;
+	background: url("//kom3.eisoo.com/buttons/substauspro.png");
+}
+.substatus div.pro.active{
+	background: url("//kom3.eisoo.com/buttons/substauspro_active.png");
+}
+.substatus div.ser{
+	background: url("//kom3.eisoo.com/buttons/substausser.png");
+}
+.substatus div.ser.active{
+	background: url("//kom3.eisoo.com/buttons/substausser_active.png");
+}
+.mainstatus{
+	left: 166px;    position: absolute;
+}
+.mainflowstatus{
+	position: absolute;border: 1px solid #c7d6e2;background: #7fc9fe;box-shadow: 1px 1px #ccc;padding: 8px 2px;height: 20px;border-radius: 5px;white-space: nowrap;padding-left: 37px;line-height: 22px;cursor: pointer;color: #fff;font-weight: bold;
+}
+.mainflowstatus div{
+	display: inline-block;
+}
+div.mainflowstatus.active{
+	color: #474646;
+}
+div.mainflowstatus.active .commitpng{
+	background: url("//kom3.eisoo.com/buttons/commit_active.png");
+}
+div.mainflowstatus.active .selloutpng{
+	background: url("//kom3.eisoo.com/buttons/sellout_active.png");
+}
+div.mainflowstatus.active .selloutedpng{
+	background: url("//kom3.eisoo.com/buttons/sellouted_active.png");
+}
+div.mainflowstatus.active .lostorderpng{
+	background: url("//kom3.eisoo.com/buttons/loseorder_active.png");
+}
+div.mainflowstatus.active .selloutExportpng{
+	background: url("//kom3.eisoo.com/buttons/selloutExport_active.png");
+}
+ .mainflowstatus .bgimg{
+ 	width: 30px;height: 34px;position: absolute;position: absolute;left: 5px;top: 1px;
+ }
+ .commitpng{
+ 	background: url("//kom3.eisoo.com/buttons/commit.png");
+ }
+ .selloutpng{
+ 	background: url("//kom3.eisoo.com/buttons/sellout.png");
+ }
+ .selloutedpng{
+ 	background: url("//kom3.eisoo.com/buttons/sellouted.png");
+ }
+ .lostorderpng{
+ 	background: url("//kom3.eisoo.com/buttons/loseorder.png");
+ }
+ .selloutExportpng{
+ 	background: url("//kom3.eisoo.com/buttons/selloutExport.png");
+ }
+.orderflow_right_main{
+	float: right;    position: relative;    width: 69%;
+}
+.orderflowitem{
+	position: absolute;	border: 1px solid #a6c1d5;	padding: 5px 10px;background: #c8e3f2;border-radius: 5px;cursor: pointer;
+	color: #fff;
+}
+.orderflowitem .itemflowtips{
+	border-bottom: 1px dashed #000;    font-size: 12px;padding: 0 10px;    position: absolute;    top: 0;color: #000;
+}
