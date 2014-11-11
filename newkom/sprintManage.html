@@ -6,20 +6,70 @@
 		<title></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/mcss-1.1.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/komh5.css"/>
 		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/iscroll.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/util.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/mjs-2.0-debug.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mjs-2.4-debug.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/canvas.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			
+		</script>
 	</head>
 	<body>
-		<div class="view current">
+		<div class="view current" style="background-color: #fff;">
 			<header class="mui-bar mui-bar-nav">
 				<a class="mui-action-backup mui-icon mui-icon-left-nav mui-pull-left" data-backtop="1"></a>
 				<h1 class="mui-title" id="maintitle">冲刺管理</h1>
 			</header>
-			<div id="container" class="mui-content" data-initajax="true">
-			   待更新
+			<div id="container" class="mui-content" data-initajax="true" style="background-color: #fff;">
+			   	<div id="desStatus" class="linear-gradient-div">
+			   		<div class="statusHeader">
+			   			<div class="statusTitle">
+				   			本季度
+				   		</div>
+				   		<span>目标100万，预计完成率80%</span>
+			   		</div>
+			   		<canvas id="mycanvas" width="100%" height="100px"></canvas>
+			   	</div>
+			   	<div class="linear-gradient-div">
+			   		<div class="statusHeader">
+			   			<div class="statusTitle dataStatis">
+				   			总数据统计
+				   		</div>
+				   		<span style="margin-left: 130px;">总数 100万</span>
+			   		</div>
+			   		<canvas id="seccanvas" width="100%" height="100px"></canvas>
+			   	</div>
+			   	<div class="linear-gradient-div">
+			   		<div class="statusHeader">
+			   			<div class="statusTitle commitdata">
+				   			Commit数据
+				   		</div>
+			   		</div>
+			   		<canvas id="thirdcanvas" width="100%" height="100px"></canvas>
+			   	</div>
+			   	<div class="linear-gradient-div">
+			   		<div class="statusHeader">
+			   			<div class="statusTitle wsellout">
+				   			待Sell Out数据
+				   		</div>
+			   		</div>
+			   	</div>
+			   	<div class="linear-gradient-div">
+			   		<div class="statusHeader">
+			   			<div class="statusTitle sellouted">
+				   			已Sell Out数据
+				   		</div>
+			   		</div>
+			   	</div>
+			   	<div class="linear-gradient-div">
+			   		<div class="statusHeader">
+			   			<div class="statusTitle theorder">
+				   			排名情况
+				   		</div>
+			   		</div>
+			   	</div>
 			</div>
 		</div>
 	</body>
